@@ -12,8 +12,6 @@ import ru.javabegin.training.goldman.gameobjects.abstracts.AbstractSoundObject;
  */
 public class Monster extends AbstractSoundObject{
 
-    private transient Clip clip;
-
     public Monster(Coordinate coordinate) {
         super.setType(GameObjectType.MONSTER);
         super.setCoordinate(coordinate);

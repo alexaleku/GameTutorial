@@ -134,7 +134,6 @@ public class JTableGameMap extends AbstractGameMap implements TimeMap {
         private TimeMover() {
             timer = new Timer(MOVING_PAUSE, this);
             timer.setInitialDelay(INIT_PAUSE);
-            timer.start();
         }
 
         public void start() {

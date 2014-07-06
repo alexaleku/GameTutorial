@@ -164,7 +164,6 @@ public class FrameMainMenu extends javax.swing.JFrame {
         MapInfo mapInfo = new MapInfo();
         mapInfo.setLevelId(MAP_LEVEL_ONE);
 
-
         if (!mapLoader.loadMap(mapInfo)) {
             return;
         }

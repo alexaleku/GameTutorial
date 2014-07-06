@@ -24,6 +24,7 @@ public abstract class AbstractGameMap implements TimeMap, Serializable { // Seri
         this.gameCollection = gameCollection;
     }
 
+    @Override
     public MapInfo getMapInfo() {
         return mapInfo;
     }

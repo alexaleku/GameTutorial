@@ -1,6 +1,5 @@
 package ru.javabegin.training.goldman.gameobjects.abstracts;
 
-import java.io.Serializable;
 import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.enums.MovingDirection;
 import ru.javabegin.training.goldman.gameobjects.impl.Coordinate;
@@ -10,7 +9,7 @@ import ru.javabegin.training.goldman.gameobjects.interfaces.MovingObject;
  * класс, который отвечает за любой движущийся объект. наследуется от класса
  * AbstractGameObject с добавлением функций движения
  */
-public abstract class AbstractMovingObject extends AbstractGameObject implements MovingObject, Serializable {
+public abstract class AbstractMovingObject extends AbstractGameObject implements MovingObject {
 
     public abstract void changeIcon(MovingDirection direction);
     private int step = 1;// по-умолчанию у всех объектов шаг равен 1

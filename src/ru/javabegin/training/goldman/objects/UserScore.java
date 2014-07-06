@@ -2,8 +2,7 @@ package ru.javabegin.training.goldman.objects;
 
 public class UserScore {
     
-    private int id;
-    private User userName;
+    private User user;
 
     private int score;
     private long playDate;
@@ -34,16 +33,11 @@ public class UserScore {
     }
 
     public User getUser() {
-        return userName;
+        return user;
     }
 
     public void setUser(User user) {
-        this.userName = user;
+        this.user = user;
     }
-
-    
-
-    
-
-    
+   
 }

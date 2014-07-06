@@ -15,10 +15,10 @@ import ru.javabegin.training.goldman.gamemap.abstracts.AbstractGameMap;
 import ru.javabegin.training.goldman.gamemap.loader.abstracts.AbstractMapLoader;
 import ru.javabegin.training.goldman.gameobjects.impl.Coordinate;
 import ru.javabegin.training.goldman.gameobjects.impl.GoldMan;
-import ru.javabegin.training.goldman.score.impl.DbScoreSaver;
 import ru.javabegin.training.goldman.objects.MapInfo;
 import ru.javabegin.training.goldman.objects.SavedMapInfo;
 import ru.javabegin.training.goldman.objects.User;
+import ru.javabegin.training.goldman.score.impl.DbScoreSaver;
 import ru.javabegin.training.goldman.utils.ObjectByteCreator;
 
 public class DBMapLoader extends AbstractMapLoader {

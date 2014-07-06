@@ -11,16 +11,21 @@ import ru.javabegin.training.goldman.gamemap.loader.abstracts.AbstractMapLoader;
 import ru.javabegin.training.goldman.gameobjects.abstracts.AbstractMovingObject;
 import ru.javabegin.training.goldman.gameobjects.impl.GoldMan;
 import ru.javabegin.training.goldman.listeners.interfaces.MoveResultListener;
-import ru.javabegin.training.goldman.score.interfaces.ScoreSaver;
 import ru.javabegin.training.goldman.objects.MapInfo;
 import ru.javabegin.training.goldman.objects.SavedMapInfo;
 import ru.javabegin.training.goldman.objects.UserScore;
+import ru.javabegin.training.goldman.score.interfaces.ScoreSaver;
 import ru.javabegin.training.goldman.sound.impl.WavPlayer;
 import ru.javabegin.training.goldman.sound.interfaces.SoundPlayer;
 import ru.javabegin.training.goldman.utils.MessageManager;
 
 public class FrameGame extends ConfirmCloseFrame implements ActionListener, MoveResultListener {
 
+    private static final String MESSAGE_DIE = "Вы проиграли!";
+    private static final String MESSAGE_WIN = "Вы выиграли! Количество очков:";
+    private static final String MESSAGE_SAVED_SUCCESS = "Игра сохранена!";
+    public static final String MESSAGE_SAVE_BEFORE_EXIT = "Сохранить игру перед выходом?";
+    
     private AbstractMapLoader mapLoader;
     private SoundPlayer soundPlayer;
     private ScoreSaver scoreSaver;
@@ -42,7 +47,6 @@ public class FrameGame extends ConfirmCloseFrame implements ActionListener, Move
         gameMap = mapLoader.getGameMap();
 
         gameMap.drawMap();
-
 
         // слушатели для звуков должны идти в первую очередь, т.к. они запускаются в отдельном потоке и не мешают выполняться следующим слушателям
         if (soundPlayer instanceof MoveResultListener) {
@@ -333,9 +337,6 @@ public class FrameGame extends ConfirmCloseFrame implements ActionListener, Move
         MessageManager.showInformMessage(null, message);
         closeFrame();
     }
-    private static final String DIE_MESSAGE = "Вы проиграли!";
-    private static final String WIN_MESSAGE = "Вы выиграли! Количество очков:";
-
 
     @Override
     protected void showFrame(JFrame parent) {
@@ -364,14 +365,14 @@ public class FrameGame extends ConfirmCloseFrame implements ActionListener, Move
                 jlabelTurnsLeft.setText(String.valueOf(getTurnsLeftCount()));
 
                 if (getTurnsLeftCount() == 0) {
-                    gameFinished(DIE_MESSAGE);
+                    gameFinished(MESSAGE_DIE);
                 }
 
                 break;
             }
 
             case WIN: {
-                gameFinished(WIN_MESSAGE + getGoldMan().getTotalScore());
+                gameFinished(MESSAGE_WIN + getGoldMan().getTotalScore());
                 saveScore();
             }
 
@@ -390,7 +391,7 @@ public class FrameGame extends ConfirmCloseFrame implements ActionListener, Move
         switch (actionResult) {
 
             case DIE: {
-                gameFinished(DIE_MESSAGE);
+                gameFinished(MESSAGE_DIE);
                 break;
             }
         }
@@ -411,6 +412,7 @@ public class FrameGame extends ConfirmCloseFrame implements ActionListener, Move
         saveMapInfo.setTotalScore(getGoldMan().getTotalScore());
         saveMapInfo.setTurnsCount(getGoldMan().getTurnsNumber());
         mapLoader.saveMap(saveMapInfo);
+        MessageManager.showInformMessage(this, MESSAGE_SAVED_SUCCESS);
     }
 
     private int getTurnsLeftCount() {
@@ -431,7 +433,7 @@ public class FrameGame extends ConfirmCloseFrame implements ActionListener, Move
         mapLoader.getGameMap().stop();
 
 
-        int result = MessageManager.showYesNoCancelMessage(this, "Сохранить игру перед выходом?");
+        int result = MessageManager.showYesNoCancelMessage(this, MESSAGE_SAVE_BEFORE_EXIT);
         switch (result) {
             case JOptionPane.YES_OPTION: {
 
@@ -452,9 +454,8 @@ public class FrameGame extends ConfirmCloseFrame implements ActionListener, Move
 
         return true;
 
-
-
     }
+    
 
     private void stopGame() {
         soundPlayer.stopBackgoundMusic();
