@@ -14,11 +14,9 @@ import ru.javabegin.training.goldman.validators.NameValidator;
 import ru.javabegin.training.goldman.validators.StringValidator;
 
 public class CustomDialog extends javax.swing.JDialog implements ActionListener, PropertyChangeListener {
-    
+
     private StringValidator nameValidator = new NameValidator();
-
     private String typedText = null;
-
     private JTextField textField;
     private JOptionPane optionPane;
     private static final String OK_BUTTON = "ОК";
@@ -26,6 +24,12 @@ public class CustomDialog extends javax.swing.JDialog implements ActionListener,
 
     public String getValidatedText() {
         return typedText;
+    }
+
+    public void setUsername(String username) {
+        textField.setText(username);
+        textField.selectAll();
+        textField.requestFocus();
     }
 
     public CustomDialog(java.awt.Frame parent, String title, String message, boolean modal) {
@@ -38,10 +42,10 @@ public class CustomDialog extends javax.swing.JDialog implements ActionListener,
 
         Object[] array = {message, textField};
 
-        
+
         Object[] options = {OK_BUTTON, CANCEL_BUTTON};
 
-       
+
         optionPane = new JOptionPane(array,
                 JOptionPane.QUESTION_MESSAGE,
                 JOptionPane.YES_NO_OPTION,
@@ -49,21 +53,21 @@ public class CustomDialog extends javax.swing.JDialog implements ActionListener,
                 options,
                 options[0]);
 
-       
+
         setContentPane(optionPane);
 
-       
+
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent we) {
-               
+
                 optionPane.setValue(new Integer(
                         JOptionPane.CLOSED_OPTION));
             }
         });
 
-    
+
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent ce) {
@@ -71,19 +75,17 @@ public class CustomDialog extends javax.swing.JDialog implements ActionListener,
             }
         });
 
-       
+
         textField.addActionListener(this);
         optionPane.addPropertyChangeListener(this);
 
     }
 
-   
     @Override
     public void actionPerformed(ActionEvent e) {
         optionPane.setValue(OK_BUTTON);
     }
 
-    
     @Override
     public void propertyChange(PropertyChangeEvent e) {
         String prop = e.getPropertyName();
@@ -104,10 +106,10 @@ public class CustomDialog extends javax.swing.JDialog implements ActionListener,
             if (OK_BUTTON.equals(value)) {
                 typedText = textField.getText();
                 if (nameValidator.isValid(typedText.toUpperCase())) {
-                  
+
                     clearAndHide();
                 } else {
-                    
+
                     textField.selectAll();
                     JOptionPane.showMessageDialog(
                             CustomDialog.this,
@@ -117,7 +119,7 @@ public class CustomDialog extends javax.swing.JDialog implements ActionListener,
                     typedText = null;
                     textField.requestFocusInWindow();
                 }
-            } else { 
+            } else {
                 typedText = null;
                 clearAndHide();
             }
