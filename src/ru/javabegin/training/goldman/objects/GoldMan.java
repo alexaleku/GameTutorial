@@ -6,7 +6,6 @@ import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.MovingDirection;
 import ru.javabegin.training.goldman.objects.sound.SoundObject;
-import ru.javabegin.training.goldman.objects.sound.WavPlayer;
 
 /**
  * класс отвечает за работу объекта GOLDMAN - главный персонаж игры
@@ -83,9 +82,11 @@ public class GoldMan extends AbstractMovingObject implements SoundObject {
     }
 
     @Override
-    public String getSoundName(ActionResult actionResult) {
+    public String getSoundPath(ActionResult actionResult) {
         switch (actionResult) {
-            case DIE: return WavPlayer.WAV_DIE;
+            case COLLECT_TREASURE: return "treasure.wav";
+            case DIE: return "die.wav";
+            case WIN: return "win.wav";
         }
 
         return null;

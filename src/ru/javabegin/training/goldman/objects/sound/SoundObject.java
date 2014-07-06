@@ -4,6 +4,6 @@ import ru.javabegin.training.goldman.enums.ActionResult;
 
 public interface SoundObject {
 
-    String getSoundName(ActionResult actionResult);
+    String getSoundPath(ActionResult actionResult);
     
 }

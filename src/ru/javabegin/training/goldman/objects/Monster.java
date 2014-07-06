@@ -6,7 +6,6 @@ import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.MovingDirection;
 import ru.javabegin.training.goldman.objects.sound.SoundObject;
-import ru.javabegin.training.goldman.objects.sound.WavPlayer;
 
 /**
  * класс отвечает за работу объекта MONSTER
@@ -60,9 +59,9 @@ public class Monster extends AbstractMovingObject implements SoundObject{
     }
     
      @Override
-    public String getSoundName(ActionResult actionResult) {
+    public String getSoundPath(ActionResult actionResult) {
         switch (actionResult) {
-            case DIE: return WavPlayer.WAV_DIE;
+            case DIE: return "die.wav";
         }
 
         return null;

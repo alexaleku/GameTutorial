@@ -9,11 +9,13 @@ import ru.javabegin.training.goldman.enums.MovingDirection;
 import ru.javabegin.training.goldman.interfaces.gamemap.DrawableMap;
 import ru.javabegin.training.goldman.objects.GoldMan;
 import ru.javabegin.training.goldman.objects.listeners.MoveResultListener;
+import ru.javabegin.training.goldman.objects.sound.SoundPlayer;
 import ru.javabegin.training.goldman.utils.MessageManager;
 
 public class FrameGame extends BaseChildFrame implements ActionListener, KeyListener, MoveResultListener {
 
     private DrawableMap map; // передаем объект карты, которая умеет себя рисовать
+    private SoundPlayer soundPlayer;
 
     /**
      * Creates new form FrameGame
@@ -22,9 +24,12 @@ public class FrameGame extends BaseChildFrame implements ActionListener, KeyList
         initComponents();
     }
 
-    public void setMap(DrawableMap gameMap) {
+    public void setMap(DrawableMap gameMap, SoundPlayer soundPlayer) {
         this.map = gameMap;
         gameMap.drawMap();
+
+        this.soundPlayer = soundPlayer;
+        this.soundPlayer.startBackgroundMusic("background.wav");
 
         gameMap.getGameMap().getGameCollection().addMoveListener(this);
 
@@ -318,7 +323,7 @@ public class FrameGame extends BaseChildFrame implements ActionListener, KeyList
         MessageManager.showInformMessage(null, message);
         closeFrame();
     }
-    private static final String DIE_MESSAGE = "Вы проиграли!";
+    private static final String DIE_MESSAGE = "Вы прогиграли!";
     private static final String WIN_MESSAGE = "Вы выиграли! Количество очков:";
 
     @Override
@@ -327,11 +332,11 @@ public class FrameGame extends BaseChildFrame implements ActionListener, KeyList
         if (movingObject.getType().equals(GameObjectType.GOLDMAN)) {
             GoldMan goldMan = (GoldMan) movingObject;
             checkGoldManActions(actionResult, goldMan);
-        } 
-            
-        
+        }
+
+
         checkCommonActions(actionResult);
-        
+
 
 
         map.drawMap();
@@ -353,6 +358,7 @@ public class FrameGame extends BaseChildFrame implements ActionListener, KeyList
 
             case WIN: {
                 gameFinished(WIN_MESSAGE + goldMan.getTotalScore());
+                soundPlayer.stopBackgoundMusic();
             }
 
 
@@ -360,7 +366,7 @@ public class FrameGame extends BaseChildFrame implements ActionListener, KeyList
                 jlabelScore.setText(String.valueOf(goldMan.getTotalScore()));
                 break;
             }
-                
+
         }
 
     }
@@ -370,9 +376,16 @@ public class FrameGame extends BaseChildFrame implements ActionListener, KeyList
 
             case DIE: {
                 gameFinished(DIE_MESSAGE);
+                soundPlayer.stopBackgoundMusic();
                 break;
             }
         }
 
+    }
+
+    @Override
+    protected void closeFrame() {
+        super.closeFrame();
+        soundPlayer.stopBackgoundMusic();
     }
 }

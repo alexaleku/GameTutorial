@@ -14,9 +14,31 @@ import ru.javabegin.training.goldman.abstracts.AbstractMovingObject;
 import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.objects.listeners.MoveResultListener;
 
-public class WavPlayer implements MoveResultListener {
+public class WavPlayer implements MoveResultListener, SoundPlayer {
+    
+    private Clip backGroundClip; 
+    private Clip moveClip; 
 
-    public static final String WAV_DIE = "die.wav";
+    public WavPlayer() {
+        try {
+            backGroundClip = AudioSystem.getClip();
+            moveClip = AudioSystem.getClip();
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(WavPlayer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+
+    @Override
+    public void startBackgroundMusic(String soundName) {
+        playSound(soundName, true, backGroundClip, false);
+    }
+    
+    @Override
+    public void stopBackgoundMusic(){
+        backGroundClip.stop();
+        backGroundClip.close();
+    }
 
     @Override
     public void notifyActionResult(ActionResult actionResult, final AbstractMovingObject abstractMovingObject) {
@@ -24,36 +46,48 @@ public class WavPlayer implements MoveResultListener {
         if (!(abstractMovingObject instanceof SoundObject)) {
             return;
         }
-
+        
+        if (actionResult.equals(ActionResult.DIE)){
+            backGroundClip.stop();
+            backGroundClip.close();
+        }
 
         SoundObject soundObject = (SoundObject) abstractMovingObject;
 
-        playSound(soundObject.getSoundName(actionResult), false, true);
+        playSound(soundObject.getSoundPath(actionResult), false, moveClip, true);
 
     }
-
-    public void playSound(String name, final boolean loop) {
-        playSound(name, loop, false);
+    
+    @Override
+    public void playSound(String name, final boolean loop){
+        try {
+            playSound(name, loop, AudioSystem.getClip(), false);
+        } catch (LineUnavailableException ex) {
+            Logger.getLogger(WavPlayer.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    public void playSound(String name, final boolean loop, final boolean stopPrev) {
+    
+    private void playSound(String name, final boolean loop, final Clip clip, final boolean stopPrev) {
 
         try {
-
-            if (name == null) {
+            
+            if (name==null){
                 return;
             }
 
-            URL sound = this.getClass().getResource("/ru/javabegin/training/goldman/sounds/" + name);
-
+            URL sound = this.getClass().getResource("/ru/javabegin/training/goldman/sounds/"+name); 
+            
             final AudioInputStream ais = AudioSystem.getAudioInputStream(sound);
 
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     try {
-
-                        Clip clip = AudioSystem.getClip();
+                        if (stopPrev && clip != null) {
+                            clip.stop();
+                            clip.close();
+                        }
 
                         clip.open(ais);
 
@@ -62,8 +96,7 @@ public class WavPlayer implements MoveResultListener {
                         } else {
                             clip.start();
                         }
-                        
-                        clip.stop();
+                       
                     } catch (IOException ex) {
                         Logger.getLogger(WavPlayer.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (LineUnavailableException ex) {
@@ -88,4 +121,6 @@ public class WavPlayer implements MoveResultListener {
             Logger.getLogger(WavPlayer.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
 }

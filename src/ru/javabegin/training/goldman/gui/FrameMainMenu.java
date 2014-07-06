@@ -156,7 +156,7 @@ public class FrameMainMenu extends javax.swing.JFrame {
         if (frameGame==null){
             frameGame = new FrameGame();
         }
-        frameGame.setMap(new JTableGameMap(LocationType.FS, "game.map", new MapCollection()));
+        frameGame.setMap(new JTableGameMap(LocationType.FS, "game.map", new MapCollection()), new WavPlayer());
         frameGame.showFrame(this);
     }//GEN-LAST:event_jbtnNewGameActionPerformed
 

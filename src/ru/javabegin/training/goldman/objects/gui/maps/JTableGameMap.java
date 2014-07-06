@@ -21,7 +21,6 @@ import ru.javabegin.training.goldman.objects.Nothing;
 import ru.javabegin.training.goldman.objects.Wall;
 import ru.javabegin.training.goldman.objects.creators.MapCreator;
 import ru.javabegin.training.goldman.objects.listeners.MoveResultListener;
-import ru.javabegin.training.goldman.objects.sound.WavPlayer;
 
 public class JTableGameMap implements DrawableMap {
 
@@ -31,7 +30,9 @@ public class JTableGameMap implements DrawableMap {
     // объекты для отображения на карте будут храниться в двумерном массиве типа AbstractGameObject
     // каждый элемент массива будет обозначаться согласно текстовому представлению объекта как описано в GameObjectType
     private AbstractGameObject[][] mapObjects;
-        
+    
+
+
     public JTableGameMap(LocationType type, Object source, GameCollection gameCollection) {
         jTableMap.setEnabled(false);
         jTableMap.setSize(new java.awt.Dimension(300, 300));
@@ -42,6 +43,7 @@ public class JTableGameMap implements DrawableMap {
         jTableMap.setTableHeader(null);
         jTableMap.setUpdateSelectionOnSort(false);
         jTableMap.setVerifyInputWhenFocusTarget(false);
+
         
         gameMap = MapCreator.getInstance().createMap(type, gameCollection);
         gameMap.loadMap(source);
