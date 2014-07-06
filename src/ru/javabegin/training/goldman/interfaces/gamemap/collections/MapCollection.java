@@ -1,19 +1,22 @@
-package ru.javabegin.training.goldman.interfaces.gamemap;
+package ru.javabegin.training.goldman.interfaces.gamemap.collections;
 
+import ru.javabegin.training.goldman.objects.listeners.MapListenersRegistrator;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import ru.javabegin.training.goldman.abstracts.AbstractGameObject;
 import ru.javabegin.training.goldman.abstracts.AbstractMovingObject;
 import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.MovingDirection;
-import ru.javabegin.training.goldman.interfaces.collections.GameCollection;
 import ru.javabegin.training.goldman.objects.Coordinate;
+import ru.javabegin.training.goldman.objects.GoldMan;
 import ru.javabegin.training.goldman.objects.Nothing;
+import ru.javabegin.training.goldman.objects.listeners.MoveResultListener;
 
-public class MapCollection implements GameCollection {// объекты для карты, которые умеют уведомлять всех слушателей о своих ходах
+public class MapCollection extends MapListenersRegistrator {// объекты для карты, которые умеют уведомлять всех слушателей о своих ходах
 
     private HashMap<Coordinate, AbstractGameObject> gameObjects = new HashMap<>();// хранит все объекты с доступом по координатам
     private EnumMap<GameObjectType, ArrayList<AbstractGameObject>> typeObjects = new EnumMap<>(GameObjectType.class); // хранит список объектов для каждого типа    
@@ -55,13 +58,21 @@ public class MapCollection implements GameCollection {// объекты для �
     }
 
     @Override
-    public ActionResult moveObject(MovingDirection direction, GameObjectType gameObjectType) {
-        
+    public void moveObject(MovingDirection direction, GameObjectType gameObjectType) {
+
+        GoldMan goldMan = (GoldMan) getGameObjects(GameObjectType.GOLDMAN).get(0);
+
         ActionResult actionResult = null;
-        
+
         for (AbstractGameObject gameObject : this.getGameObjects(gameObjectType)) {
             if (gameObject instanceof AbstractMovingObject) {// дорогостоящая операция - instanceof
                 AbstractMovingObject movingObject = (AbstractMovingObject) gameObject;
+
+
+
+                if (direction == null) {
+                    direction = getRandomMoveDirection(movingObject);
+                }
 
                 Coordinate newCoordinate = getNewCoordinate(direction, movingObject);
 
@@ -78,14 +89,22 @@ public class MapCollection implements GameCollection {// объекты для �
                         swapObjects(movingObject, new Nothing(newCoordinate));
                         break;
                     }
-   
+
+                    case WIN:
+                    case DIE: {
+                        break;
+                    }
+
                 }
+
             }
 
-
+            notifyMoveListeners(actionResult, goldMan);
         }
 
-        return actionResult;
+
+        
+
     }
 
     private void swapObjects(AbstractGameObject obj1, AbstractGameObject obj2) {
@@ -133,5 +152,84 @@ public class MapCollection implements GameCollection {// объекты для �
         }
 
         return newCoordinate;
+    }
+
+    private MovingDirection getRandomMoveDirection(AbstractMovingObject movingObject) {
+
+        GoldMan goldMan = (GoldMan) getGameObjects(GameObjectType.GOLDMAN).get(0);
+
+        MovingDirection direction = null;
+
+        int characterX = goldMan.getCoordinate().getX();
+        int characterY = goldMan.getCoordinate().getY();
+
+        int monsterX = movingObject.getCoordinate().getX();
+        int monsterY = movingObject.getCoordinate().getY();
+
+        int number = getRandomInt(2);// 50% шанс чтобы двинуться к игроку
+        // может сгенерить 1 или 0. это и будет 50% шанса
+        if (number == 1) { // 0 - двигаться по направлению к игроку
+            // наугад берется любое направление к игроку
+            number = getRandomInt(2);
+            switch (number) {// двигаться по оси X в сторону игрока или по оси Y
+                case 1: {
+                    if (monsterX > characterX) {
+                        direction = MovingDirection.LEFT;
+                    } else {
+                        direction = MovingDirection.RIGHT;
+                    }
+                    break;
+                }
+                case 2: {
+                    if (monsterY > characterY) {
+                        direction = MovingDirection.UP;
+                    } else {
+                        direction = MovingDirection.DOWN;
+                    }
+                    break;
+                }
+
+            }
+        } else { // 1 - двигаться по направлению от игрока
+            number = getRandomInt(2);
+            switch (number) {// двигаться по оси X от игрока или по оси Y
+                case 1: {
+                    if (monsterX > characterX) {
+                        direction = MovingDirection.RIGHT;
+                    } else {
+                        direction = MovingDirection.LEFT;
+                    }
+                    break;
+                }
+                case 2: {
+                    if (monsterY > characterY) {
+                        direction = MovingDirection.DOWN;
+                    } else {
+                        direction = MovingDirection.UP;
+                    }
+                    break;
+                }
+            }
+        }
+        
+
+        return direction;
+    }
+
+    private int getRandomInt(int i) {
+        Random r = new Random();
+        return r.nextInt(i) + 1;
+    }
+
+    @Override
+    public void notifyMoveListeners(ActionResult actionResult, GoldMan goldMan) {
+        for (MoveResultListener listener : getMoveListeners()) {
+            listener.notifyActionResult(actionResult, goldMan);
+        }
+    }
+
+    @Override
+    public void moveObjectRandom(GameObjectType objectType) {
+        moveObject(null, objectType);
     }
 }

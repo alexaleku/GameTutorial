@@ -1,26 +1,19 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ru.javabegin.training.goldman.gui;
 
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
-import javax.swing.JFrame;
 import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.MovingDirection;
 import ru.javabegin.training.goldman.interfaces.gamemap.DrawableMap;
 import ru.javabegin.training.goldman.objects.GoldMan;
+import ru.javabegin.training.goldman.objects.listeners.MoveResultListener;
 import ru.javabegin.training.goldman.utils.MessageManager;
 
-/**
- *
- * @author Tim
- */
-public class FrameGame extends BaseChildFrame implements ActionListener, KeyListener {
 
-    private DrawableMap gameMap; // передаем объект карты, которая умеет себя рисовать
+public class FrameGame extends BaseChildFrame implements ActionListener, KeyListener, MoveResultListener {
+
+    private DrawableMap map; // передаем объект карты, которая умеет себя рисовать
 
     /**
      * Creates new form FrameGame
@@ -30,8 +23,10 @@ public class FrameGame extends BaseChildFrame implements ActionListener, KeyList
     }
 
     public void setMap(DrawableMap gameMap) {
-        this.gameMap = gameMap;
+        this.map = gameMap;
         gameMap.drawMap();
+
+        gameMap.getGameMap().getGameCollection().addMoveListener(this);
 
         jlabelTurnsLeft.setText(String.valueOf(gameMap.getGameMap().getTimeLimit()));
         jPanelMap.removeAll();
@@ -316,32 +311,41 @@ public class FrameGame extends BaseChildFrame implements ActionListener, KeyList
     // End of variables declaration//GEN-END:variables
 
     private void moveObject(MovingDirection movingDirection, GameObjectType gameObjectType) {
-        ActionResult result = gameMap.getGameMap().move(movingDirection, gameObjectType);
-
-        if (result == ActionResult.DIE) {
-            gameOver();
-            return;
-        }
-
-        gameMap.drawMap();
-
-        if (gameObjectType == GameObjectType.GOLDMAN) {
-            GoldMan goldMan = (GoldMan) gameMap.getGameMap().getGameCollection().getGameObjects(gameObjectType).get(0);
-
-            if (goldMan.getTurnsNumber() >= gameMap.getGameMap().getTimeLimit()) {
-                gameOver();
-                return;
-            }
-
-            jlabelScore.setText(String.valueOf(goldMan.getTotalScore()));
-            jlabelTurnsLeft.setText(String.valueOf(gameMap.getGameMap().getTimeLimit() - goldMan.getTurnsNumber()));
-
-        }
-
+        map.getGameMap().getGameCollection().moveObject(movingDirection, gameObjectType);
     }
 
     private void gameOver() {
         MessageManager.showInformMessage(null, "Вы проиграли!");
         closeFrame();
+    }
+
+    @Override
+    public void notifyActionResult(ActionResult actionResult, GoldMan goldMan) {
+
+        switch (actionResult) {
+            case MOVE: {
+                jlabelTurnsLeft.setText(String.valueOf(map.getGameMap().getTimeLimit() - goldMan.getTurnsNumber()));
+
+                if (goldMan.getTurnsNumber() >= map.getGameMap().getTimeLimit()) {
+                    gameOver();
+                }
+
+                break;
+            }
+
+            case DIE: {
+                gameOver();
+                break;
+            }
+
+
+            case COLLECT_TREASURE: {
+                jlabelScore.setText(String.valueOf(goldMan.getTotalScore()));
+                break;
+            }
+        }
+
+        map.drawMap();
+
     }
 }

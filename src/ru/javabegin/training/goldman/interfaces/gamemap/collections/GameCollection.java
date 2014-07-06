@@ -1,13 +1,13 @@
-package ru.javabegin.training.goldman.interfaces.collections;
+package ru.javabegin.training.goldman.interfaces.gamemap.collections;
 
 import java.util.List;
 import ru.javabegin.training.goldman.abstracts.AbstractGameObject;
-import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.MovingDirection;
 import ru.javabegin.training.goldman.objects.Coordinate;
+import ru.javabegin.training.goldman.objects.listeners.MoveResultNotifier;
 
-public interface GameCollection{
+public interface GameCollection extends MoveResultNotifier{
     
     AbstractGameObject getObjectByCoordinate(Coordinate coordinate);
     
@@ -19,6 +19,8 @@ public interface GameCollection{
     
     List<AbstractGameObject> getGameObjects(GameObjectType type);
     
-    ActionResult moveObject(MovingDirection direction, GameObjectType gameObjectType);
+    void moveObject(MovingDirection direction, GameObjectType gameObjectType);
+    
+    void moveObjectRandom(GameObjectType objectType);
 
 }

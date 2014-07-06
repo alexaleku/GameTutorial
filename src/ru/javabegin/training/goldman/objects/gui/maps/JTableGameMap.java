@@ -1,14 +1,17 @@
 package ru.javabegin.training.goldman.objects.gui.maps;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JTable;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import ru.javabegin.training.goldman.abstracts.AbstractGameMap;
 import ru.javabegin.training.goldman.abstracts.AbstractGameObject;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.LocationType;
-import ru.javabegin.training.goldman.interfaces.collections.GameCollection;
+import ru.javabegin.training.goldman.interfaces.gamemap.collections.GameCollection;
 import ru.javabegin.training.goldman.interfaces.gamemap.DrawableMap;
 import ru.javabegin.training.goldman.objects.Coordinate;
 import ru.javabegin.training.goldman.objects.Nothing;
@@ -18,9 +21,7 @@ import ru.javabegin.training.goldman.objects.creators.MapCreator;
 public class JTableGameMap implements DrawableMap {
 
     private JTable jTableMap = new JTable();
-    
     private AbstractGameMap gameMap;
-    
     private String[] columnNames;
     // объекты для отображения на карте будут храниться в двумерном массиве типа AbstractGameObject
     // каждый элемент массива будет обозначаться согласно текстовому представлению объекта как описано в GameObjectType
@@ -39,12 +40,11 @@ public class JTableGameMap implements DrawableMap {
 
         gameMap = MapCreator.getInstance().createMap(type, gameCollection);
         gameMap.loadMap(source);
-     
-        
+   
+
     }
 
 
-   
     private void fillEmptyMap(int width, int height) {
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
@@ -53,7 +53,6 @@ public class JTableGameMap implements DrawableMap {
         }
     }
 
-  
     private void updateObjectsArray() {
 
         mapObjects = new AbstractGameObject[gameMap.getHeight()][gameMap.getWidth()];
@@ -78,7 +77,7 @@ public class JTableGameMap implements DrawableMap {
 
     @Override
     public boolean drawMap() {
-        
+
         updateObjectsArray();
 
         try {
@@ -107,7 +106,7 @@ public class JTableGameMap implements DrawableMap {
 
 
         return true;
-    }    
+    }
 
     @Override
     public Component getMapComponent() {
@@ -118,4 +117,34 @@ public class JTableGameMap implements DrawableMap {
     public AbstractGameMap getGameMap() {
         return gameMap;
     }
+ 
+
+
+    private TimeMover timeMover = new TimeMover();
+
+    private class TimeMover implements ActionListener {
+
+        private Timer timer;
+        private final static int MOVING_PAUSE = 500;
+
+        private TimeMover() {
+            timer = new Timer(MOVING_PAUSE, this);
+            timer.setInitialDelay(0);
+            timer.start();
+        }
+
+        public void start() {
+            timer.start();
+        }
+
+        public void stop() {
+            timer.stop();
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            gameMap.getGameCollection().moveObjectRandom(GameObjectType.MONSTER);
+        }
+    }
+ 
 }

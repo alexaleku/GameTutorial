@@ -66,9 +66,10 @@ public class GoldMan extends AbstractMovingObject {
                 return ActionResult.COLLECT_TREASURE;
             }
 
-            case MONSTER: {
+            case MONSTER:  {
                 return ActionResult.DIE;
             }
+                
         }
 
         return super.doAction(gameObject);

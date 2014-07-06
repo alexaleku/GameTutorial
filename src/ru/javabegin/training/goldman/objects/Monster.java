@@ -1,6 +1,8 @@
 package ru.javabegin.training.goldman.objects;
 
+import ru.javabegin.training.goldman.abstracts.AbstractGameObject;
 import ru.javabegin.training.goldman.abstracts.AbstractMovingObject;
+import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.MovingDirection;
 
@@ -35,7 +37,24 @@ public class Monster extends AbstractMovingObject {
         }
     }
 
- 
+    @Override
+    public ActionResult doAction(AbstractGameObject gameObject) {
 
 
+        switch (gameObject.getType()) {
+
+
+            case TREASURE:
+            case MONSTER: { // монстр не может наступать на сокровище и на других монстров
+                return ActionResult.NO_ACTION;
+            }
+
+            case GOLDMAN: {
+                return ActionResult.DIE;
+            }
+
+        }
+
+        return super.doAction(gameObject);
+    }
 }

@@ -2,7 +2,7 @@ package ru.javabegin.training.goldman.objects.creators;
 
 import ru.javabegin.training.goldman.abstracts.AbstractGameMap;
 import ru.javabegin.training.goldman.enums.LocationType;
-import ru.javabegin.training.goldman.interfaces.collections.GameCollection;
+import ru.javabegin.training.goldman.interfaces.gamemap.collections.GameCollection;
 import ru.javabegin.training.goldman.objects.maps.FSGameMap;
 
 public class MapCreator {
