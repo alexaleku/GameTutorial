@@ -1,5 +1,7 @@
 package ru.javabegin.training.goldman.gameobjects.abstracts;
 
+import java.util.EnumMap;
+import javax.swing.ImageIcon;
 import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.enums.MovingDirection;
 import ru.javabegin.training.goldman.gameobjects.impl.Coordinate;
@@ -11,8 +13,9 @@ import ru.javabegin.training.goldman.gameobjects.interfaces.MovingObject;
  */
 public abstract class AbstractMovingObject extends AbstractGameObject implements MovingObject {
 
-    public abstract void changeIcon(MovingDirection direction);
     private int step = 1;// по-умолчанию у всех объектов шаг равен 1
+    
+    protected EnumMap<MovingDirection, ImageIcon> movingImages = new EnumMap<>(MovingDirection.class);
 
     @Override
     public int getStep() {
@@ -90,5 +93,11 @@ public abstract class AbstractMovingObject extends AbstractGameObject implements
 
 
     }
+    
+
+    public void changeIcon(MovingDirection direction) {
+        super.setIcon(movingImages.get(direction));        
+    }
+    
   
 }

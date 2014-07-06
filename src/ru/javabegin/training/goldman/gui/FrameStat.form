@@ -51,7 +51,7 @@
   <SubComponents>
     <Component class="javax.swing.JButton" name="jbtnBack">
       <Properties>
-        <Property name="text" type="java.lang.String" value="&lt;&lt; &#x432; &#x43c;&#x435;&#x43d;&#x44e;"/>
+        <Property name="text" type="java.lang.String" value="&lt;&lt; &#x43d;&#x430;&#x437;&#x430;&#x434;"/>
         <Property name="name" type="java.lang.String" value="FrameStat" noResource="true"/>
       </Properties>
       <Events>

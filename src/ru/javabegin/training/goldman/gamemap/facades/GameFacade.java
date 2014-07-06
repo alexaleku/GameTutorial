@@ -54,6 +54,12 @@ public class GameFacade {
         this.mapLoader = mapLoader;
     }
 
+    public ScoreSaver getScoreSaver() {
+        return scoreSaver;
+    }
+
+    
+    
     public void setScoreSaver(ScoreSaver scoreSaver) {
         this.scoreSaver = scoreSaver;
     }

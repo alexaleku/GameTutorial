@@ -3,17 +3,24 @@ package ru.javabegin.training.goldman.gui;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import ru.javabegin.training.goldman.listeners.interfaces.CloseFrameListener;
 import ru.javabegin.training.goldman.models.ScoreTableModel;
 import ru.javabegin.training.goldman.objects.UserScore;
 
 public class FrameStat extends BaseChildFrame implements ActionListener {
 
     private ArrayList<UserScore> list;
+    private CloseFrameListener closeFrameListener;
 
     /**
      * Creates new form FrameStat
      */
     public FrameStat() {
+        initComponents();
+    }
+
+    public FrameStat(CloseFrameListener closeFrameListener) {
+        this.closeFrameListener = closeFrameListener;
         initComponents();
     }
 
@@ -37,7 +44,7 @@ public class FrameStat extends BaseChildFrame implements ActionListener {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Статистика");
 
-        jbtnBack.setText("<< в меню");
+        jbtnBack.setText("<< назад");
         jbtnBack.setName("FrameStat"); // NOI18N
         jbtnBack.addActionListener(this);
 
@@ -105,5 +112,18 @@ public class FrameStat extends BaseChildFrame implements ActionListener {
 
         super.showFrame(parent);
 
+    }
+
+    @Override
+    protected void closeFrame() {
+        super.closeFrame();
+        if (closeFrameListener!=null){
+            onClose(closeFrameListener);
+        }
+
+    }
+
+    private void onClose(CloseFrameListener closeFrameListener) {
+        closeFrameListener.onCloseAction();
     }
 }

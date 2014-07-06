@@ -10,7 +10,7 @@ import ru.javabegin.training.goldman.gameobjects.abstracts.AbstractSoundObject;
 /**
  * класс отвечает за работу объекта MONSTER
  */
-public class Monster extends AbstractSoundObject{
+public class Monster extends AbstractSoundObject {
 
     private transient Clip clip;
 
@@ -19,35 +19,21 @@ public class Monster extends AbstractSoundObject{
         super.setCoordinate(coordinate);
         super.setIcon(getImageIcon("/ru/javabegin/training/goldman/images/monster_up.jpg"));// иконку по-умолчанию (можно сделать реализацию случайного выбора иконки)
 
-    }
+        movingImages.put(MovingDirection.UP, getImageIcon("/ru/javabegin/training/goldman/images/monster_up.jpg"));
+        movingImages.put(MovingDirection.DOWN, getImageIcon("/ru/javabegin/training/goldman/images/monster_down.jpg"));
+        movingImages.put(MovingDirection.LEFT, getImageIcon("/ru/javabegin/training/goldman/images/monster_left.jpg"));
+        movingImages.put(MovingDirection.RIGHT, getImageIcon("/ru/javabegin/training/goldman/images/monster_right.jpg"));
 
-    @Override
-    public void changeIcon(MovingDirection direction) {
-        switch (direction) {
-            case DOWN:
-                super.setIcon(getImageIcon("/ru/javabegin/training/goldman/images/monster_down.jpg"));
-                break;
-            case LEFT:
-                super.setIcon(getImageIcon("/ru/javabegin/training/goldman/images/monster_right.jpg"));
-                break;
-            case RIGHT:
-                super.setIcon(getImageIcon("/ru/javabegin/training/goldman/images/monster_right.jpg"));
-                break;
-            case UP:
-                super.setIcon(getImageIcon("/ru/javabegin/training/goldman/images/monster_up.jpg"));
-                break;
-        }
     }
 
     @Override
     public ActionResult doAction(AbstractGameObject gameObject) {
 
         switch (gameObject.getType()) {
-       
+
             case TREASURE:
             case MONSTER:
-            case TREE:
-            { // монстр не может наступать на сокровище, дерево и на других монстров
+            case TREE: { // монстр не может наступать на сокровище, дерево и на других монстров
                 return ActionResult.NO_ACTION;
             }
 
