@@ -1,7 +1,6 @@
 package ru.javabegin.training.goldman.abstracts;
 
 import javax.swing.ImageIcon;
-import ru.javabegin.training.goldman.enums.MovingDirection;
 import ru.javabegin.training.goldman.interfaces.MovingObject;
 
 /**

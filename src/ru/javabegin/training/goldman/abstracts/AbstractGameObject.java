@@ -1,7 +1,6 @@
 package ru.javabegin.training.goldman.abstracts;
 
 
-import java.util.Objects;
 import ru.javabegin.training.goldman.objects.Coordinate;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import javax.swing.ImageIcon;
@@ -52,33 +51,6 @@ public abstract class AbstractGameObject implements StaticObject {
     public void setCoordinate(Coordinate coordinate) {
         this.coordinate = coordinate;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 37 * hash + (this.type != null ? this.type.hashCode() : 0);
-        hash = 37 * hash + Objects.hashCode(this.coordinate);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final AbstractGameObject other = (AbstractGameObject) obj;
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
-    
-    
 
    
 }

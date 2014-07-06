@@ -51,4 +51,6 @@ public class GoldMan extends AbstractMovingObject {
     public void getMoveResult(AbstractGameObject objectInNewCoordinate) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+ 
 }
