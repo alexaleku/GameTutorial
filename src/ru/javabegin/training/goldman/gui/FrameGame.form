@@ -49,6 +49,9 @@
     <SyntheticProperty name="generateSize" type="boolean" value="true"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="formKeyPressed"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -197,7 +200,7 @@
             <Component class="javax.swing.JButton" name="jbtnLeft">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/javabegin/training/game/images/left.png"/>
+                  <Image iconType="3" name="/ru/javabegin/training/goldman/images/left.png"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="jbtnLeft" noResource="true"/>
               </Properties>
@@ -208,7 +211,7 @@
             <Component class="javax.swing.JButton" name="jbtnUp">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/javabegin/training/game/images/up.png"/>
+                  <Image iconType="3" name="/ru/javabegin/training/goldman/images/up.png"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="jbtnUp" noResource="true"/>
               </Properties>
@@ -219,7 +222,7 @@
             <Component class="javax.swing.JButton" name="jbtnRight">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/javabegin/training/game/images/right.png"/>
+                  <Image iconType="3" name="/ru/javabegin/training/goldman/images/right.png"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="jbtnRight" noResource="true"/>
               </Properties>
@@ -230,7 +233,7 @@
             <Component class="javax.swing.JButton" name="jbtnDown">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/javabegin/training/game/images/down.png"/>
+                  <Image iconType="3" name="/ru/javabegin/training/goldman/images/down.png"/>
                 </Property>
                 <Property name="name" type="java.lang.String" value="jbtnDown" noResource="true"/>
               </Properties>
@@ -254,7 +257,7 @@
             <Component class="javax.swing.JButton" name="jbtnSave">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/javabegin/training/game/images/save.png"/>
+                  <Image iconType="3" name="/ru/javabegin/training/goldman/images/save.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="&#x421;&#x43e;&#x445;&#x440;&#x430;&#x43d;&#x438;&#x442;&#x44c;"/>
                 <Property name="horizontalAlignment" type="int" value="2"/>
@@ -267,7 +270,7 @@
             <Component class="javax.swing.JButton" name="jbtnExit">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/com/javabegin/training/game/images/exit.png"/>
+                  <Image iconType="3" name="/ru/javabegin/training/goldman/images/exit.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="&#x412;&#x44b;&#x439;&#x442;&#x438; &#x438;&#x437; &#x438;&#x433;&#x440;&#x44b;"/>
                 <Property name="horizontalAlignment" type="int" value="2"/>

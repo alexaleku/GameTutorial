@@ -25,19 +25,19 @@ public abstract class AbstractGameMap implements GameMap, Serializable { // Seri
     private EnumMap<GameObjectType, ArrayList<AbstractGameObject>> typeObjects = new EnumMap<>(GameObjectType.class); // хранит список объектов для каждого типа    
 
     public void addGameObject(AbstractGameObject gameObject) {
-// get list for the object type
+
         ArrayList<AbstractGameObject> tmpList = typeObjects.get(gameObject.getType());
-// if list is null create new one
+
         if (tmpList == null) {
             tmpList = new ArrayList<>();
         }
-// add object to the list
+
         tmpList.add(gameObject);
-// put refreshed list back to the map        
-        typeObjects.put(gameObject.getType(), tmpList);
-// put the object to common collection
+
         gameObjects.put(gameObject.getCoordinate(), gameObject);
-        
+        typeObjects.put(gameObject.getType(), tmpList);
+
+
     }
 
     public boolean isExitExist() {
@@ -115,4 +115,6 @@ public abstract class AbstractGameMap implements GameMap, Serializable { // Seri
     public AbstractGameObject getObjectByCoordinate(int x, int y) {
         return gameObjects.get(new Coordinate(x, y));
     }
+    
+   
 }

@@ -41,12 +41,8 @@ public class GoldMan extends AbstractMovingObject {
     public void setTurnsNumber(int turnsNumber) {
         this.turnsNumber = turnsNumber;
     }
-
-    @Override
-    public void move(MovingDirection direction) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+    
+   
     @Override
     public void getMoveResult(AbstractGameObject objectInNewCoordinate) {
         throw new UnsupportedOperationException("Not supported yet.");

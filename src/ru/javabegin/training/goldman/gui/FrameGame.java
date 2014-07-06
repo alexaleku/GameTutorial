@@ -5,16 +5,18 @@
 package ru.javabegin.training.goldman.gui;
 
 import java.awt.event.ActionListener;
-import ru.javabegin.training.goldman.abstracts.AbstractGameMap;
-import ru.javabegin.training.goldman.enums.LocationType;
+import java.awt.event.KeyListener;
+import ru.javabegin.training.goldman.abstracts.AbstractGameObject;
+import ru.javabegin.training.goldman.abstracts.AbstractMovingObject;
+import ru.javabegin.training.goldman.enums.GameObjectType;
+import ru.javabegin.training.goldman.enums.MovingDirection;
 import ru.javabegin.training.goldman.interfaces.gamemap.DrawableMap;
-import ru.javabegin.training.goldman.objects.gui.maps.JTableGameMap;
 
 /**
  *
  * @author Tim
  */
-public class FrameGame extends BaseChildFrame implements ActionListener {
+public class FrameGame extends BaseChildFrame implements ActionListener, KeyListener {
 
     private DrawableMap gameMap; // передаем объект карты, которая умеет себя рисовать
 
@@ -24,15 +26,14 @@ public class FrameGame extends BaseChildFrame implements ActionListener {
     public FrameGame() {
         initComponents();
     }
-    
-    public void setMap(DrawableMap gameMap){
+
+    public void setMap(DrawableMap gameMap) {
         this.gameMap = gameMap;
         gameMap.drawMap();
-        
-        jPanelMap.removeAll();
-        jPanelMap.add(gameMap.getMap());    
-    }
 
+        jPanelMap.removeAll();
+        jPanelMap.add(gameMap.getMapComponent());
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -65,6 +66,7 @@ public class FrameGame extends BaseChildFrame implements ActionListener {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setName("FrameGame"); // NOI18N
+        addKeyListener(this);
 
         jPanelMap.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanelMap.setLayout(new java.awt.BorderLayout());
@@ -248,25 +250,49 @@ public class FrameGame extends BaseChildFrame implements ActionListener {
         else if (evt.getSource() == jbtnExit) {
             FrameGame.this.jbtnExitActionPerformed(evt);
         }
+    }
+
+    public void keyPressed(java.awt.event.KeyEvent evt) {
+        if (evt.getSource() == FrameGame.this) {
+            FrameGame.this.formKeyPressed(evt);
+        }
+    }
+
+    public void keyReleased(java.awt.event.KeyEvent evt) {
+    }
+
+    public void keyTyped(java.awt.event.KeyEvent evt) {
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbtnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSaveActionPerformed
-    }//GEN-LAST:event_jbtnSaveActionPerformed
+    private void jbtnUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnUpActionPerformed
+        moveGoldMan(MovingDirection.UP, GameObjectType.GOLDMAN);
+    }//GEN-LAST:event_jbtnUpActionPerformed
+
+    private void jbtnLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLeftActionPerformed
+        moveGoldMan(MovingDirection.LEFT, GameObjectType.GOLDMAN);
+    }//GEN-LAST:event_jbtnLeftActionPerformed
 
     private void jbtnDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDownActionPerformed
+        moveGoldMan(MovingDirection.DOWN, GameObjectType.GOLDMAN);
     }//GEN-LAST:event_jbtnDownActionPerformed
 
     private void jbtnRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRightActionPerformed
+        moveGoldMan(MovingDirection.RIGHT, GameObjectType.GOLDMAN);
     }//GEN-LAST:event_jbtnRightActionPerformed
 
-    private void jbtnLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLeftActionPerformed
-    }//GEN-LAST:event_jbtnLeftActionPerformed
+    private void jbtnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSaveActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbtnSaveActionPerformed
 
     private void jbtnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnExitActionPerformed
+        // TODO add your handling code here:
     }//GEN-LAST:event_jbtnExitActionPerformed
 
-    private void jbtnUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnUpActionPerformed
-    }//GEN-LAST:event_jbtnUpActionPerformed
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        System.out.println(evt.getKeyCode());
+    }//GEN-LAST:event_formKeyPressed
+
+  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -288,4 +314,13 @@ public class FrameGame extends BaseChildFrame implements ActionListener {
     private javax.swing.JLabel jlabelTurnsLeftText;
     private javax.swing.JMenu jmenuFile;
     // End of variables declaration//GEN-END:variables
+
+    private void moveGoldMan(MovingDirection movingDirection, GameObjectType gameObjectType) {
+        AbstractGameObject gameObject = gameMap.getGameMap().getGameObjects(gameObjectType).get(0);
+        
+        if (gameObject instanceof AbstractMovingObject){// дорогостоящая операция
+            ((AbstractMovingObject)gameObject).move(movingDirection);
+            gameMap.drawMap();
+        }
+    }
 }

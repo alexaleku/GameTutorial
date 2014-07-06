@@ -40,7 +40,7 @@ public class JTableGameMap implements DrawableMap {
         gameMap.loadMap(source);
 
         
-        updateObjectsArray();
+        
     }
 
 
@@ -78,6 +78,8 @@ public class JTableGameMap implements DrawableMap {
 
     @Override
     public boolean drawMap() {
+        
+        updateObjectsArray();
 
         try {
             // присваиваем пустоту всем заголовкам столбцов, чтобы у таблицы не было заголовоков, а то некрасиво смотрится
@@ -96,7 +98,6 @@ public class JTableGameMap implements DrawableMap {
             for (int i = 0; i < jTableMap.getColumnCount(); i++) {
                 jTableMap.getColumnModel().getColumn(i).setCellRenderer(new ImageRenderer());
                 TableColumn a = jTableMap.getColumnModel().getColumn(i);
-                jTableMap.setRowMargin(0);
                 a.setPreferredWidth(26);
             }
         } catch (Exception e) {
@@ -109,7 +110,12 @@ public class JTableGameMap implements DrawableMap {
     }    
 
     @Override
-    public Component getMap() {
+    public Component getMapComponent() {
         return jTableMap;
+    }
+
+    @Override
+    public AbstractGameMap getGameMap() {
+        return gameMap;
     }
 }
