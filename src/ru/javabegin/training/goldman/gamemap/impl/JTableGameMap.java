@@ -49,34 +49,22 @@ public class JTableGameMap extends AbstractGameMap implements TimeMap {
 
     }
 
-    private void fillEmptyMap(int width, int height) {
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                mapObjects[y][x] = new Nothing(new Coordinate(x, y));
-            }
-        }
-    }
+ 
 
     private void updateObjectsArray() {
 
         mapObjects = new AbstractGameObject[mapInfo.getHeight()][mapInfo.getWidth()];
-
-        fillEmptyMap(mapInfo.getWidth(), mapInfo.getHeight());
-
-        // потом заполнить массив объектами		
+		
         for (AbstractGameObject gameObj : getGameCollection().getAllGameObjects()) {
-            if (!gameObj.getType().equals(GameObjectType.NOTHING)  // пустоты не добавляем, т.к. они уже добавились когда мы вызвали метод fillEmptyMap()
-                    ) {
+       
                 int y = gameObj.getCoordinate().getY();
                 int x = gameObj.getCoordinate().getX();
-                if (!(mapObjects[y][x] instanceof Nothing) & // если в этих координатах уже есть какой то объект, отличный от пустоты и стены
-                        !(mapObjects[y][x] instanceof Wall)) {
-                    AbstractGameObject tmpObj = mapObjects[y][x];
-                    mapObjects[y][x] = getPriorityObject(tmpObj, gameObj);
-                } else {
-                    mapObjects[y][x] = gameObj;// проставить объект на карте согласно его координатам
+                if (mapObjects[y][x] !=null){ // если в этих координатах уже есть какой то объект
+                    mapObjects[y][x] = getGameCollection().getObjectByCoordinate(x, y);
+                }else{
+                    mapObjects[y][x] = gameObj;
                 }
-            }
+      
         }
     }
 

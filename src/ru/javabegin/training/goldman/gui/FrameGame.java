@@ -16,6 +16,7 @@ import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.MovingDirection;
 import ru.javabegin.training.goldman.gamemap.facades.GameFacade;
 import ru.javabegin.training.goldman.gameobjects.abstracts.AbstractMovingObject;
+import ru.javabegin.training.goldman.gameobjects.impl.GoldMan;
 import ru.javabegin.training.goldman.listeners.interfaces.CloseFrameListener;
 import ru.javabegin.training.goldman.listeners.interfaces.MoveResultListener;
 import ru.javabegin.training.goldman.utils.MessageManager;
@@ -317,7 +318,6 @@ public class FrameGame extends ConfirmCloseFrame implements ActionListener, Move
     private void jmenuSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenuSaveActionPerformed
         saveMap();
     }//GEN-LAST:event_jmenuSaveActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel2;
@@ -365,9 +365,7 @@ public class FrameGame extends ConfirmCloseFrame implements ActionListener, Move
             checkGoldManActions(actionResult);
         }
 
-
         checkCommonActions(actionResult);
-
         gameFacade.updateMap();
 
     }

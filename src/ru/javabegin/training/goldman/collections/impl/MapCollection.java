@@ -47,13 +47,13 @@ public class MapCollection extends MapMoveListenersRegistrator implements Serial
 
     @Override
     public AbstractGameObject getObjectByCoordinate(Coordinate coordinate) {
-  
+
         AbstractGameObject gameObject = null;
- 
+
         ArrayList<AbstractGameObject> list = gameObjects.get(coordinate);
-        
+
         if (list == null) {// край карты
-            return new Wall(coordinate);
+            return null;
         }
 
         for (AbstractGameObject obj : list) {
@@ -66,7 +66,7 @@ public class MapCollection extends MapMoveListenersRegistrator implements Serial
             }
         }
 
-        
+
         return gameObject;
     }
 
@@ -159,8 +159,8 @@ public class MapCollection extends MapMoveListenersRegistrator implements Serial
 
         }
     }
-    
-    private void removeObject(AbstractGameObject obj){
+
+    private void removeObject(AbstractGameObject obj) {
         gameObjects.get(obj.getCoordinate()).remove(obj);
         typeObjects.get(obj.getType()).remove(obj);
     }

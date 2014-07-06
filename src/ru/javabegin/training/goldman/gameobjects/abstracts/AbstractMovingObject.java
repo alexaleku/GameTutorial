@@ -15,7 +15,7 @@ public abstract class AbstractMovingObject extends AbstractGameObject implements
 
     private int step = 1;// по-умолчанию у всех объектов шаг равен 1
     
-    protected EnumMap<MovingDirection, ImageIcon> movingImages = new EnumMap<>(MovingDirection.class);
+    protected EnumMap<MovingDirection, ImageIcon> movingImages = new EnumMap<>(MovingDirection.class);// карта иконок для всех направлений
 
     @Override
     public int getStep() {
@@ -60,6 +60,8 @@ public abstract class AbstractMovingObject extends AbstractGameObject implements
         return ActionResult.NO_ACTION;
     }
 
+   
+    
     public Coordinate getDirectionCoordinate(MovingDirection direction) {
 
         // берем текущие координаты объекта, которые нужно передвинуть (индексы начинаются с нуля)
