@@ -65,7 +65,8 @@ public class JTableGameMap extends AbstractGameMap implements TimeMap {
 
         // потом заполнить массив объектами		
         for (AbstractGameObject gameObj : getGameCollection().getAllGameObjects()) {
-            if (!gameObj.getType().equals(GameObjectType.NOTHING)) {// пустоты не добавляем, т.к. они уже добавились когда мы вызвали метод fillEmptyMap()
+            if (!gameObj.getType().equals(GameObjectType.NOTHING)  // пустоты не добавляем, т.к. они уже добавились когда мы вызвали метод fillEmptyMap()
+                    ) {
                 int y = gameObj.getCoordinate().getY();
                 int x = gameObj.getCoordinate().getX();
                 if (!(mapObjects[y][x] instanceof Nothing) & // если в этих координатах уже есть какой то объект, отличный от пустоты и стены

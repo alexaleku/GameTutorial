@@ -1,8 +1,8 @@
 package ru.javabegin.training.goldman.score.impl;
 
 import java.util.ArrayList;
-import ru.javabegin.training.goldman.score.interfaces.ScoreSaver;
 import ru.javabegin.training.goldman.objects.UserScore;
+import ru.javabegin.training.goldman.score.interfaces.ScoreSaver;
 
 public class FSScoreSaver implements ScoreSaver{
 

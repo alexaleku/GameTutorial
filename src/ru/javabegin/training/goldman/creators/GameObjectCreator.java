@@ -8,6 +8,7 @@ import ru.javabegin.training.goldman.gameobjects.impl.GoldMan;
 import ru.javabegin.training.goldman.gameobjects.impl.Monster;
 import ru.javabegin.training.goldman.gameobjects.impl.Nothing;
 import ru.javabegin.training.goldman.gameobjects.impl.Treasure;
+import ru.javabegin.training.goldman.gameobjects.impl.Tree;
 import ru.javabegin.training.goldman.gameobjects.impl.Wall;
 
 public class GameObjectCreator {
@@ -51,6 +52,11 @@ public class GameObjectCreator {
 
             case GOLDMAN: {
                 obj = new GoldMan(coordinate);
+                break;
+            }
+                
+            case TREE:{
+                obj = new Tree(coordinate);
                 break;
             }
 

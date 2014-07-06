@@ -10,7 +10,6 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.gameobjects.abstracts.AbstractMovingObject;
-import ru.javabegin.training.goldman.gameobjects.abstracts.AbstractSoundObject;
 import ru.javabegin.training.goldman.listeners.interfaces.MoveResultListener;
 import ru.javabegin.training.goldman.sound.interfaces.SoundObject;
 import ru.javabegin.training.goldman.sound.interfaces.SoundPlayer;
@@ -35,11 +34,11 @@ public class WavPlayer implements MoveResultListener, SoundPlayer {
             backGroundClip.open(ais);
 
         } catch (UnsupportedAudioFileException ex) {
-            Logger.getLogger(AbstractSoundObject.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WavPlayer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(AbstractSoundObject.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WavPlayer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (LineUnavailableException ex) {
-            Logger.getLogger(AbstractSoundObject.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(WavPlayer.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }

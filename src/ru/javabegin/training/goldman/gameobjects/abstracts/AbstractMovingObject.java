@@ -1,6 +1,5 @@
 package ru.javabegin.training.goldman.gameobjects.abstracts;
 
-import java.io.Serializable;
 import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.enums.MovingDirection;
 import ru.javabegin.training.goldman.gameobjects.impl.Coordinate;

@@ -12,7 +12,7 @@ public interface MoveResultNotifier {
 
     public void removeMoveListener(MoveResultListener listener);
 
-    public void removeAllLMoveisteners();
+    public void removeAllMoveListeners();
 
     public void notifyMoveListeners(ActionResult actionResult, AbstractMovingObject abstractMovingObject);
 

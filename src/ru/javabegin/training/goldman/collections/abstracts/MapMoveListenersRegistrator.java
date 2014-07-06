@@ -26,7 +26,7 @@ public abstract class MapMoveListenersRegistrator implements GameCollection, Mov
     }
 
     @Override
-    public void removeAllLMoveisteners() {
+    public void removeAllMoveListeners() {
         listeners.clear();
     }
 
