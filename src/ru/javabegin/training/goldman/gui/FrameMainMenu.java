@@ -1,12 +1,14 @@
 package ru.javabegin.training.goldman.gui;
 
-import ru.javabegin.training.goldman.gamemap.loader.impl.DBMapLoader;
+import ru.javabegin.training.goldman.collections.impl.MapCollection;
+import ru.javabegin.training.goldman.enums.LocationType;
+import ru.javabegin.training.goldman.gamemap.adapters.HybridMapLoader;
+import ru.javabegin.training.goldman.gamemap.facades.GameFacade;
 import ru.javabegin.training.goldman.gamemap.impl.JTableGameMap;
-import ru.javabegin.training.goldman.gamemap.loader.abstracts.AbstractMapLoader;
-import ru.javabegin.training.goldman.score.impl.DbScoreSaver;
-import ru.javabegin.training.goldman.score.interfaces.ScoreSaver;
 import ru.javabegin.training.goldman.objects.MapInfo;
 import ru.javabegin.training.goldman.objects.User;
+import ru.javabegin.training.goldman.score.impl.DbScoreSaver;
+import ru.javabegin.training.goldman.score.interfaces.ScoreSaver;
 import ru.javabegin.training.goldman.sound.impl.WavPlayer;
 import ru.javabegin.training.goldman.sound.interfaces.SoundPlayer;
 
@@ -16,12 +18,13 @@ public class FrameMainMenu extends javax.swing.JFrame {
     private FrameStat frameStat;
     private FrameSavedGames frameSavedGames;
     private ScoreSaver scoreSaver = new DbScoreSaver();
-    private CustomDialog usernameDialog = new CustomDialog(this, "Имя пользователя", "Введите имя:", true);;
-    private JTableGameMap gameMap = new JTableGameMap();
-    private AbstractMapLoader mapLoader = new DBMapLoader(gameMap);
+    private CustomDialog usernameDialog = new CustomDialog(this, "Имя пользователя", "Введите имя:", true);
+    private JTableGameMap gameMap = new JTableGameMap(new MapCollection());
+    private HybridMapLoader mapLoader = new HybridMapLoader(gameMap);
     private SoundPlayer soundPlayer = new WavPlayer();
     private static final int MAP_LEVEL_ONE = 1;
     private User user;
+    private GameFacade gameFacade = new GameFacade(mapLoader, soundPlayer, scoreSaver);
 
     /**
      * Creates new form FrameMainMenu
@@ -164,9 +167,12 @@ public class FrameMainMenu extends javax.swing.JFrame {
         MapInfo mapInfo = new MapInfo();
         mapInfo.setLevelId(MAP_LEVEL_ONE);
 
-        if (!mapLoader.loadMap(mapInfo)) {
+        if (!mapLoader.loadMap(mapInfo, LocationType.FS)) {
             return;
         }
+
+
+        gameFacade.setMapLoader(mapLoader);
 
         createFrameGame();
 
@@ -175,7 +181,7 @@ public class FrameMainMenu extends javax.swing.JFrame {
 
     private void createFrameGame() {
         if (frameGame == null) {
-            frameGame = new FrameGame(scoreSaver, mapLoader, soundPlayer);
+            frameGame = new FrameGame(gameFacade);
         }
     }
 
@@ -277,25 +283,24 @@ public class FrameMainMenu extends javax.swing.JFrame {
         return usernameDialog.getValidatedText();
     }
 
-    
     private boolean saveUser() {// сохранить пользователя, получить его id
 
         String username = getUserNameDialog();
 
         if (username != null && !username.trim().equals("")) {
-            
-            if (user!=null && user.getUsername().equals(username)){// если ввел того же пользователя (т.е. ничего не менял)
+
+            if (user != null && user.getUsername().equals(username)) {// если ввел того же пользователя (т.е. ничего не менял)
                 return true;
             }
-            
+
             user = new User();
             user.setUsername(username);
             user.setId(mapLoader.getPlayerId(username));
-            
+
             gameMap.getMapInfo().setUser(user);
-            
+
             return true;
-        } 
+        }
 
         return false;
     }

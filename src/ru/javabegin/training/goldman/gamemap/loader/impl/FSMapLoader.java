@@ -46,6 +46,7 @@ public class FSMapLoader extends AbstractMapLoader {
 
             // разбиваем первую строку на токены, разделенные запятой.            
             gameMap.getMapInfo().setMapName(strLine.split(",")[0]);
+            gameMap.getMapInfo().setId(1);
 
             gameMap.getMapInfo().setTurnsLimit(Integer.valueOf(strLine.split(",")[1]).intValue());
             gameMap.getMapInfo().setWidth(Integer.valueOf(strLine.split(",")[2]).intValue());

@@ -1,6 +1,6 @@
 package ru.javabegin.training.goldman.objects;
 
-public class SavedMapInfo extends MapInfo{
+public class SavedMapInfo  extends MapInfo{
     
     private long saveDate;
     private int totalScore;

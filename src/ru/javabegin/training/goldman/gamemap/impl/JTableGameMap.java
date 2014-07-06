@@ -9,6 +9,7 @@ import javax.swing.JTable;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import ru.javabegin.training.goldman.collections.interfaces.GameCollection;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.gamemap.abstracts.AbstractGameMap;
 import ru.javabegin.training.goldman.gamemap.interfaces.TimeMap;
@@ -27,8 +28,10 @@ public class JTableGameMap extends AbstractGameMap implements TimeMap {
     private transient AbstractGameObject[][] mapObjects;
     private transient TimeMover timeMover = new TimeMover();
 
-    public JTableGameMap() {
-
+    public JTableGameMap(GameCollection gameCollection) {
+        super(gameCollection);
+        
+        
         try {
             jTableMap.setEnabled(false);
             jTableMap.setSize(new java.awt.Dimension(300, 300));

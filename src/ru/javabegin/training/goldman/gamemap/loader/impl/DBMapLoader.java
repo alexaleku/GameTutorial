@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import ru.javabegin.training.goldman.collections.impl.MapCollection;
 import ru.javabegin.training.goldman.collections.interfaces.GameCollection;
 import ru.javabegin.training.goldman.database.SQLiteConnection;
 import ru.javabegin.training.goldman.enums.GameObjectType;
@@ -172,8 +171,6 @@ public class DBMapLoader extends AbstractMapLoader {
         SQLiteConnection sqliteDB = SQLiteConnection.getInstance();
 
         try {
-
-            gameMap.setGameCollection(new MapCollection());
 
             selectStmt = sqliteDB.getConnection().prepareStatement("select * from map where level_id = ? limit 1");
 

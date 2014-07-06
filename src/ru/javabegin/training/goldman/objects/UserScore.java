@@ -39,5 +39,10 @@ public class UserScore {
     public void setUser(User user) {
         this.user = user;
     }
-   
+
+    
+
+    
+
+    
 }

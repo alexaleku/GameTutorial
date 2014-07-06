@@ -24,7 +24,6 @@ public class WavPlayer implements MoveResultListener, SoundPlayer {
     public static final String SOUND_MOVE = "waka_waka.wav";
     
     public static final String SOUND_PATH = "/ru/javabegin/training/goldman/sound/files/";
-    
     private Clip backGroundClip;
     
     public WavPlayer() {
@@ -55,6 +54,7 @@ public class WavPlayer implements MoveResultListener, SoundPlayer {
         if (backGroundClip != null && backGroundClip.isRunning()) {
             backGroundClip.stop();
         }
+
     }
 
     @Override
@@ -63,6 +63,7 @@ public class WavPlayer implements MoveResultListener, SoundPlayer {
         if (!(abstractMovingObject instanceof SoundObject)) {
             return;
         }
+
 
         SoundObject soundObject = (SoundObject) abstractMovingObject;
 

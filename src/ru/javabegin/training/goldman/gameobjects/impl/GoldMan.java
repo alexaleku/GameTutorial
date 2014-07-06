@@ -15,7 +15,6 @@ public class GoldMan extends AbstractSoundObject {
 
     private int totalScore = 0;// кол-во очков, собранных игроком
     private int turnsNumber = 0;// кол-во сделанных ходов
-  
     private transient Clip moveClip;
     private transient Clip treasureClip;
     private transient Clip winClip;
