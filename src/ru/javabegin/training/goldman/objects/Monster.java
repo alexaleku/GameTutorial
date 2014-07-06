@@ -5,11 +5,13 @@ import ru.javabegin.training.goldman.abstracts.AbstractMovingObject;
 import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.MovingDirection;
+import ru.javabegin.training.goldman.objects.sound.SoundObject;
+import ru.javabegin.training.goldman.objects.sound.WavPlayer;
 
 /**
  * класс отвечает за работу объекта MONSTER
  */
-public class Monster extends AbstractMovingObject {
+public class Monster extends AbstractMovingObject implements SoundObject{
 
     public Monster(Coordinate coordinate) {
         super.setType(GameObjectType.MONSTER);
@@ -55,5 +57,14 @@ public class Monster extends AbstractMovingObject {
         }
 
         return super.doAction(gameObject);
+    }
+    
+     @Override
+    public String getSoundName(ActionResult actionResult) {
+        switch (actionResult) {
+            case DIE: return WavPlayer.WAV_DIE;
+        }
+
+        return null;
     }
 }

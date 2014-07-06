@@ -5,11 +5,13 @@ import ru.javabegin.training.goldman.abstracts.AbstractMovingObject;
 import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.MovingDirection;
+import ru.javabegin.training.goldman.objects.sound.SoundObject;
+import ru.javabegin.training.goldman.objects.sound.WavPlayer;
 
 /**
  * класс отвечает за работу объекта GOLDMAN - главный персонаж игры
  */
-public class GoldMan extends AbstractMovingObject {
+public class GoldMan extends AbstractMovingObject implements SoundObject {
 
     private int totalScore = 0;// кол-во очков, собранных игроком
     private int turnsNumber = 0;// кол-во сделанных ходов
@@ -58,7 +60,7 @@ public class GoldMan extends AbstractMovingObject {
     public ActionResult doAction(AbstractGameObject gameObject) {
 
         turnsNumber++;
-        System.out.println(gameObject);
+
         switch (gameObject.getType()) {
 
             case TREASURE: {
@@ -66,17 +68,26 @@ public class GoldMan extends AbstractMovingObject {
                 return ActionResult.COLLECT_TREASURE;
             }
 
-            case MONSTER:  {
+            case MONSTER: {
                 return ActionResult.DIE;
             }
-                
-            case EXIT:{
+
+            case EXIT: {
                 totalScore *= 2;
                 return ActionResult.WIN;
             }
-                
+
         }
 
         return super.doAction(gameObject);
+    }
+
+    @Override
+    public String getSoundName(ActionResult actionResult) {
+        switch (actionResult) {
+            case DIE: return WavPlayer.WAV_DIE;
+        }
+
+        return null;
     }
 }

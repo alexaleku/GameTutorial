@@ -2,6 +2,7 @@ package ru.javabegin.training.goldman.gui;
 
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import ru.javabegin.training.goldman.abstracts.AbstractMovingObject;
 import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.MovingDirection;
@@ -9,7 +10,6 @@ import ru.javabegin.training.goldman.interfaces.gamemap.DrawableMap;
 import ru.javabegin.training.goldman.objects.GoldMan;
 import ru.javabegin.training.goldman.objects.listeners.MoveResultListener;
 import ru.javabegin.training.goldman.utils.MessageManager;
-
 
 public class FrameGame extends BaseChildFrame implements ActionListener, KeyListener, MoveResultListener {
 
@@ -318,16 +318,30 @@ public class FrameGame extends BaseChildFrame implements ActionListener, KeyList
         MessageManager.showInformMessage(null, message);
         closeFrame();
     }
+    private static final String DIE_MESSAGE = "Вы проиграли!";
+    private static final String WIN_MESSAGE = "Вы выиграли! Количество очков:";
 
-    
-    private static final String DIE_MESSAGE="Вы прогиграли!";
-    private static final String WIN_MESSAGE="Вы выиграли! Количество очков:";
-    
     @Override
-    public void notifyActionResult(ActionResult actionResult, GoldMan goldMan) {
+    public void notifyActionResult(ActionResult actionResult, AbstractMovingObject movingObject) {
 
+        if (movingObject.getType().equals(GameObjectType.GOLDMAN)) {
+            GoldMan goldMan = (GoldMan) movingObject;
+            checkGoldManActions(actionResult, goldMan);
+        } 
+            
+        
+        checkCommonActions(actionResult);
+        
+
+
+        map.drawMap();
+
+    }
+
+    private void checkGoldManActions(ActionResult actionResult, GoldMan goldMan) {
         switch (actionResult) {
             case MOVE: {
+
                 jlabelTurnsLeft.setText(String.valueOf(map.getGameMap().getTimeLimit() - goldMan.getTurnsNumber()));
 
                 if (goldMan.getTurnsNumber() >= map.getGameMap().getTimeLimit()) {
@@ -337,13 +351,8 @@ public class FrameGame extends BaseChildFrame implements ActionListener, KeyList
                 break;
             }
 
-            case DIE: {
-                gameFinished(DIE_MESSAGE);
-                break;
-            }
-                
-            case WIN:{
-                gameFinished(WIN_MESSAGE+goldMan.getTotalScore());
+            case WIN: {
+                gameFinished(WIN_MESSAGE + goldMan.getTotalScore());
             }
 
 
@@ -351,9 +360,19 @@ public class FrameGame extends BaseChildFrame implements ActionListener, KeyList
                 jlabelScore.setText(String.valueOf(goldMan.getTotalScore()));
                 break;
             }
+                
         }
 
-        map.drawMap();
+    }
+
+    private void checkCommonActions(ActionResult actionResult) {
+        switch (actionResult) {
+
+            case DIE: {
+                gameFinished(DIE_MESSAGE);
+                break;
+            }
+        }
 
     }
 }

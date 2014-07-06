@@ -16,11 +16,16 @@ import ru.javabegin.training.goldman.objects.GoldMan;
 import ru.javabegin.training.goldman.objects.Nothing;
 import ru.javabegin.training.goldman.objects.Wall;
 import ru.javabegin.training.goldman.objects.listeners.MoveResultListener;
+import ru.javabegin.training.goldman.objects.sound.WavPlayer;
 
 public class MapCollection extends MapListenersRegistrator {// объекты для карты, которые умеют уведомлять всех слушателей о своих ходах
 
     private HashMap<Coordinate, AbstractGameObject> gameObjects = new HashMap<>();// хранит все объекты с доступом по координатам
     private EnumMap<GameObjectType, ArrayList<AbstractGameObject>> typeObjects = new EnumMap<>(GameObjectType.class); // хранит список объектов для каждого типа    
+
+    public MapCollection() {
+        addMoveListener(new WavPlayer());
+    }
 
     @Override
     public List<AbstractGameObject> getAllGameObjects() {
@@ -35,7 +40,7 @@ public class MapCollection extends MapListenersRegistrator {// объекты д
     @Override
     public AbstractGameObject getObjectByCoordinate(Coordinate coordinate) {
         AbstractGameObject gameObject = gameObjects.get(coordinate);
-        if (gameObject == null){// край карты
+        if (gameObject == null) {// край карты
             gameObject = new Wall(coordinate);
         }
         return gameObject;
@@ -66,30 +71,29 @@ public class MapCollection extends MapListenersRegistrator {// объекты д
     public void moveObject(MovingDirection direction, GameObjectType gameObjectType) {
         doMoveAction(direction, gameObjectType, null);// движение по направлению (без стратегии)
     }
-    
-    
+
     @Override
     public void moveObject(MoveStrategy moveStrategy, GameObjectType gameObjectType) {
         doMoveAction(null, gameObjectType, moveStrategy);// движение по стратегии
     }
-    
-    private void doMoveAction(MovingDirection direction, GameObjectType gameObjectType, MoveStrategy moveStrategy){
-          GoldMan goldMan = (GoldMan) getGameObjects(GameObjectType.GOLDMAN).get(0);
+
+    private void doMoveAction(MovingDirection direction, GameObjectType gameObjectType, MoveStrategy moveStrategy) {
+        GoldMan goldMan = (GoldMan) getGameObjects(GameObjectType.GOLDMAN).get(0);
 
         ActionResult actionResult = null;
-
+        
         for (AbstractGameObject gameObject : this.getGameObjects(gameObjectType)) {
             if (gameObject instanceof AbstractMovingObject) {// дорогостоящая операция - instanceof
                 AbstractMovingObject movingObject = (AbstractMovingObject) gameObject;
-                        
-                if (moveStrategy!=null){// если указана стратегия движения - то берем наравления оттуда
+
+                if (moveStrategy != null) {// если указана стратегия движения - то берем наравления оттуда
                     direction = moveStrategy.getDirection(movingObject, goldMan, this);
                 }
 
                 Coordinate newCoordinate = movingObject.getDirectionCoordinate(direction);
 
                 AbstractGameObject objectInNewCoordinate = getObjectByCoordinate(newCoordinate);
-                System.out.println("direction " + direction + ";  objectInNewCoordinate" + objectInNewCoordinate);
+
                 actionResult = movingObject.moveToObject(direction, objectInNewCoordinate);
 
                 switch (actionResult) {
@@ -109,9 +113,11 @@ public class MapCollection extends MapListenersRegistrator {// объекты д
 
                 }
 
+                notifyMoveListeners(actionResult, movingObject);
+
             }
 
-            notifyMoveListeners(actionResult, goldMan);
+
         }
     }
 
@@ -130,18 +136,10 @@ public class MapCollection extends MapListenersRegistrator {// объекты д
         obj2.setCoordinate(tmpCoordinate);
     }
 
-  
-    
-
-    
-
     @Override
-    public void notifyMoveListeners(ActionResult actionResult, GoldMan goldMan) {
+    public void notifyMoveListeners(ActionResult actionResult, AbstractMovingObject movingObject) {
         for (MoveResultListener listener : getMoveListeners()) {
-            listener.notifyActionResult(actionResult, goldMan);
+            listener.notifyActionResult(actionResult, movingObject);
         }
     }
-    
-
-    
 }

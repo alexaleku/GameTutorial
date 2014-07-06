@@ -1,8 +1,8 @@
 package ru.javabegin.training.goldman.objects.listeners;
 
 import java.util.List;
+import ru.javabegin.training.goldman.abstracts.AbstractMovingObject;
 import ru.javabegin.training.goldman.enums.ActionResult;
-import ru.javabegin.training.goldman.objects.GoldMan;
 
 public interface MoveResultNotifier {
     
@@ -14,6 +14,6 @@ public interface MoveResultNotifier {
 
     public void removeAllLMoveisteners();
 
-    public void notifyMoveListeners(ActionResult actionResult, GoldMan goldMan);
+    public void notifyMoveListeners(ActionResult actionResult, AbstractMovingObject abstractMovingObject);
 
 }

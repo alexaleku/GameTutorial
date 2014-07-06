@@ -7,6 +7,7 @@ package ru.javabegin.training.goldman.gui;
 import ru.javabegin.training.goldman.enums.LocationType;
 import ru.javabegin.training.goldman.interfaces.gamemap.collections.MapCollection;
 import ru.javabegin.training.goldman.objects.gui.maps.JTableGameMap;
+import ru.javabegin.training.goldman.objects.sound.WavPlayer;
 
 
 /**
