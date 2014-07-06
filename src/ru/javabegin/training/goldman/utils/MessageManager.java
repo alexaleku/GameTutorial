@@ -6,6 +6,8 @@ import javax.swing.JOptionPane;
 public class MessageManager {
 
     public static void showInformMessage(Component comp, String message) {
-        JOptionPane.showMessageDialog(comp, message, "Message Dialog", JOptionPane.PLAIN_MESSAGE);
+        JOptionPane.showMessageDialog(comp, message, "Сообщение", JOptionPane.PLAIN_MESSAGE);
     }
+
+
 }

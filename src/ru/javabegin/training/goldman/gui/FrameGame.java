@@ -6,25 +6,28 @@ import ru.javabegin.training.goldman.abstracts.AbstractMovingObject;
 import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.MovingDirection;
-import ru.javabegin.training.goldman.interfaces.gamemap.DrawableMap;
+import ru.javabegin.training.goldman.interfaces.gamemap.TimeMap;
 import ru.javabegin.training.goldman.objects.GoldMan;
 import ru.javabegin.training.goldman.objects.listeners.MoveResultListener;
 import ru.javabegin.training.goldman.objects.sound.SoundPlayer;
+import ru.javabegin.training.goldman.user.AbstractUserManager;
 import ru.javabegin.training.goldman.utils.MessageManager;
 
 public class FrameGame extends BaseChildFrame implements ActionListener, KeyListener, MoveResultListener {
 
-    private DrawableMap map; // передаем объект карты, которая умеет себя рисовать
+    private TimeMap map; // передаем объект карты, которая умеет себя рисовать
     private SoundPlayer soundPlayer;
+    private AbstractUserManager userManager;
 
     /**
      * Creates new form FrameGame
      */
-    public FrameGame() {
+    public FrameGame(AbstractUserManager userManager) {
+        this.userManager = userManager;
         initComponents();
     }
 
-    public void setMap(DrawableMap gameMap, SoundPlayer soundPlayer) {
+    public void setMap(TimeMap gameMap, SoundPlayer soundPlayer) {
         this.map = gameMap;
         gameMap.drawMap();
 
@@ -288,7 +291,7 @@ public class FrameGame extends BaseChildFrame implements ActionListener, KeyList
     }//GEN-LAST:event_jbtnSaveActionPerformed
 
     private void jbtnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnExitActionPerformed
-        // TODO add your handling code here:
+        closeFrame();
     }//GEN-LAST:event_jbtnExitActionPerformed
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
@@ -375,8 +378,8 @@ public class FrameGame extends BaseChildFrame implements ActionListener, KeyList
         switch (actionResult) {
 
             case DIE: {
-                gameFinished(DIE_MESSAGE);
                 soundPlayer.stopBackgoundMusic();
+                gameFinished(DIE_MESSAGE);                
                 break;
             }
         }
@@ -387,5 +390,8 @@ public class FrameGame extends BaseChildFrame implements ActionListener, KeyList
     protected void closeFrame() {
         super.closeFrame();
         soundPlayer.stopBackgoundMusic();
+        map.stop();
     }
+
+   
 }

@@ -8,18 +8,17 @@ import ru.javabegin.training.goldman.enums.LocationType;
 import ru.javabegin.training.goldman.interfaces.gamemap.collections.MapCollection;
 import ru.javabegin.training.goldman.objects.gui.maps.JTableGameMap;
 import ru.javabegin.training.goldman.objects.sound.WavPlayer;
+import ru.javabegin.training.goldman.user.AbstractUserManager;
+import ru.javabegin.training.goldman.user.DbUserManager;
+import ru.javabegin.training.goldman.user.User;
 
-
-/**
- *
- * @author Tim
- */
 public class FrameMainMenu extends javax.swing.JFrame {
 
     private FrameGame frameGame;
     private FrameStat frameStat = new FrameStat();
     private FrameSavedGames frameLoadGame = new FrameSavedGames();
-    
+    private AbstractUserManager userManager = new DbUserManager();
+    private CustomDialog usernameDialog;
 
     /**
      * Creates new form FrameMainMenu
@@ -153,10 +152,16 @@ public class FrameMainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnNewGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnNewGameActionPerformed
-        if (frameGame==null){
-            frameGame = new FrameGame();
+
+        if (createNewUser() == null) {
+            return;
+        }
+
+        if (frameGame == null) {
+            frameGame = new FrameGame(userManager);
         }
         frameGame.setMap(new JTableGameMap(LocationType.FS, "game.map", new MapCollection()), new WavPlayer());
+
         frameGame.showFrame(this);
     }//GEN-LAST:event_jbtnNewGameActionPerformed
 
@@ -228,6 +233,22 @@ public class FrameMainMenu extends javax.swing.JFrame {
     javax.swing.JPanel jpnlMainMenu;
     // End of variables declaration//GEN-END:variables
 
-    
-    
+    private User createNewUser() {
+
+        if (usernameDialog == null) {
+            usernameDialog = new CustomDialog(this, "Имя пользователя", "Введите имя:", true);
+        }
+
+        usernameDialog.setVisible(true);
+
+
+        if (usernameDialog.getValidatedText() != null) {
+            userManager.createNewUser(usernameDialog.getValidatedText());
+            return userManager.getUser();
+        }
+
+
+        return null;
+
+    }
 }

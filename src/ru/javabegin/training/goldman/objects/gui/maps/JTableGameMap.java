@@ -13,8 +13,8 @@ import ru.javabegin.training.goldman.abstracts.AbstractMovingObject;
 import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.LocationType;
+import ru.javabegin.training.goldman.interfaces.gamemap.TimeMap;
 import ru.javabegin.training.goldman.interfaces.gamemap.collections.GameCollection;
-import ru.javabegin.training.goldman.interfaces.gamemap.DrawableMap;
 import ru.javabegin.training.goldman.movestrategies.AgressiveMoving;
 import ru.javabegin.training.goldman.objects.Coordinate;
 import ru.javabegin.training.goldman.objects.Nothing;
@@ -22,7 +22,7 @@ import ru.javabegin.training.goldman.objects.Wall;
 import ru.javabegin.training.goldman.objects.creators.MapCreator;
 import ru.javabegin.training.goldman.objects.listeners.MoveResultListener;
 
-public class JTableGameMap implements DrawableMap {
+public class JTableGameMap implements TimeMap {
 
     private JTable jTableMap = new JTable();
     private AbstractGameMap gameMap;
@@ -30,8 +30,6 @@ public class JTableGameMap implements DrawableMap {
     // объекты для отображения на карте будут храниться в двумерном массиве типа AbstractGameObject
     // каждый элемент массива будет обозначаться согласно текстовому представлению объекта как описано в GameObjectType
     private AbstractGameObject[][] mapObjects;
-    
-
 
     public JTableGameMap(LocationType type, Object source, GameCollection gameCollection) {
         jTableMap.setEnabled(false);
@@ -44,14 +42,14 @@ public class JTableGameMap implements DrawableMap {
         jTableMap.setUpdateSelectionOnSort(false);
         jTableMap.setVerifyInputWhenFocusTarget(false);
 
-        
+
         gameMap = MapCreator.getInstance().createMap(type, gameCollection);
         gameMap.loadMap(source);
-   
-        timeMover = new TimeMover();
-                
-    }
 
+        timeMover = new TimeMover();
+        
+    
+    }
 
     private void fillEmptyMap(int width, int height) {
         for (int y = 0; y < height; y++) {
@@ -125,10 +123,17 @@ public class JTableGameMap implements DrawableMap {
     public AbstractGameMap getGameMap() {
         return gameMap;
     }
- 
-
-
     private TimeMover timeMover;
+
+    @Override
+    public void start() {
+        timeMover.start();
+    }
+
+    @Override
+    public void stop() {
+        timeMover.stop();
+    }
 
     private class TimeMover implements ActionListener, MoveResultListener {
 
@@ -158,13 +163,13 @@ public class JTableGameMap implements DrawableMap {
 
         @Override
         public void notifyActionResult(ActionResult actionResult, AbstractMovingObject movingObject) {
-            switch (actionResult){
-                case DIE: case WIN:{
+            switch (actionResult) {
+                case DIE:
+                case WIN: {
                     timer.stop();
                     break;
                 }
             }
         }
     }
- 
 }
