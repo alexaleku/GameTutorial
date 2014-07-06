@@ -105,12 +105,7 @@ public abstract class AbstractGameMap implements GameMap, Serializable { // Seri
     }
 
     public void move(MovingDirection direction, GameObjectType gameObjectType) {
-
-        for (AbstractGameObject gameObject : getGameCollection().getGameObjects(gameObjectType)) {
-            if (gameObject instanceof AbstractMovingObject) {// дорогостоящая операция - instanceof
-                AbstractMovingObject movingObject = (AbstractMovingObject) gameObject;
-                movingObject.move(direction, this);
-            }
-        }
+        getGameCollection().moveObject(direction, gameObjectType);
+   
     }
 }

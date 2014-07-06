@@ -1,6 +1,8 @@
 package ru.javabegin.training.goldman.objects;
 
+import ru.javabegin.training.goldman.abstracts.AbstractGameObject;
 import ru.javabegin.training.goldman.abstracts.AbstractMovingObject;
+import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.MovingDirection;
 
@@ -52,8 +54,5 @@ public class GoldMan extends AbstractMovingObject {
         }
     }
 
-   
-
-
-
+ 
 }

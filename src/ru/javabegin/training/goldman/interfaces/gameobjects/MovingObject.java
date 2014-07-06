@@ -1,10 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package ru.javabegin.training.goldman.interfaces.gameobjects;
 
-import ru.javabegin.training.goldman.abstracts.AbstractGameMap;
+import ru.javabegin.training.goldman.abstracts.AbstractGameObject;
+import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.enums.MovingDirection;
 
 /**
@@ -13,8 +10,8 @@ import ru.javabegin.training.goldman.enums.MovingDirection;
  */
 public interface MovingObject extends StaticObject{
     
-    void move(MovingDirection direction, AbstractGameMap abstractGameMap);
+    ActionResult moveToObject(MovingDirection direction, AbstractGameObject gameObject); 
     
     int getStep();
-   
+       
 }
