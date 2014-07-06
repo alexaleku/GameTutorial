@@ -14,5 +14,7 @@ import ru.javabegin.training.goldman.enums.MovingDirection;
 public interface MovingObject extends StaticObject{
     
     void move(MovingDirection direction, AbstractGameMap abstractGameMap);
+    
+    int getStep();
    
 }

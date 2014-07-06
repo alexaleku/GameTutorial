@@ -5,11 +5,13 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import ru.javabegin.training.goldman.abstracts.AbstractGameObject;
+import ru.javabegin.training.goldman.abstracts.AbstractMovingObject;
 import ru.javabegin.training.goldman.enums.GameObjectType;
+import ru.javabegin.training.goldman.enums.MovingDirection;
 import ru.javabegin.training.goldman.interfaces.collections.GameCollection;
 import ru.javabegin.training.goldman.objects.Coordinate;
 
-public class MapCollection implements GameCollection {
+public class MapCollection implements GameCollection {// объекты для карты, которые умеют уведомлять всех слушателей о своих ходах
 
     private HashMap<Coordinate, AbstractGameObject> gameObjects = new HashMap<>();// хранит все объекты с доступом по координатам
     private EnumMap<GameObjectType, ArrayList<AbstractGameObject>> typeObjects = new EnumMap<>(GameObjectType.class); // хранит список объектов для каждого типа    
@@ -18,7 +20,7 @@ public class MapCollection implements GameCollection {
     public List<AbstractGameObject> getAllGameObjects() {
         return new ArrayList(gameObjects.values());// ! узкое место - каждый раз создается новая коллекция
     }
-    
+
     @Override
     public List<AbstractGameObject> getGameObjects(GameObjectType type) {
         return typeObjects.get(type);
@@ -49,7 +51,9 @@ public class MapCollection implements GameCollection {
         typeObjects.put(gameObject.getType(), tmpList);
 
     }
+   
 
-       
-    
+ 
+
+   
 }

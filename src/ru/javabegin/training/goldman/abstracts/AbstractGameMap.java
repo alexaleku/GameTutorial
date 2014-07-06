@@ -113,6 +113,4 @@ public abstract class AbstractGameMap implements GameMap, Serializable { // Seri
             }
         }
     }
-    
-    
 }
