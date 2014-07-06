@@ -11,7 +11,9 @@ public class Wall extends AbstractGameObject{
 
     public Wall(Coordinate coordinate) {
         super.setType(GameObjectType.WALL);
-        super.setCoordinate(coordinate);        
+        super.setCoordinate(coordinate);
+        
         super.setIcon(getImageIcon("/ru/javabegin/training/goldman/images/wall.png"));
+
     }
 }

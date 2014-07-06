@@ -4,6 +4,11 @@
  */
 package ru.javabegin.training.goldman.gui;
 
+import ru.javabegin.training.goldman.enums.LocationType;
+import ru.javabegin.training.goldman.interfaces.gamemap.DrawableMap;
+import ru.javabegin.training.goldman.objects.gui.maps.JTableGameMap;
+import ru.javabegin.training.goldman.objects.maps.FSGameMap;
+
 
 /**
  *
@@ -11,9 +16,11 @@ package ru.javabegin.training.goldman.gui;
  */
 public class FrameMainMenu extends javax.swing.JFrame {
 
-    private FrameGame frameGame = new FrameGame();
+    private FrameGame frameGame;
     private FrameStat frameStat = new FrameStat();
     private FrameSavedGames frameLoadGame = new FrameSavedGames();
+    
+    private JTableGameMap gameMap = new JTableGameMap(LocationType.FS, "game.map");
     
 
     /**
@@ -148,6 +155,10 @@ public class FrameMainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnNewGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnNewGameActionPerformed
+        if (frameGame==null){
+            frameGame = new FrameGame();
+        }
+        frameGame.setMap(gameMap);
         frameGame.showFrame(this);
     }//GEN-LAST:event_jbtnNewGameActionPerformed
 

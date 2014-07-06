@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package ru.javabegin.training.goldman.interfaces;
+package ru.javabegin.training.goldman.interfaces.gameobjects;
 
 import javax.swing.ImageIcon;
 import ru.javabegin.training.goldman.enums.MovingDirection;

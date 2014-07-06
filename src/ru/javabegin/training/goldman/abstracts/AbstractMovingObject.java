@@ -1,7 +1,7 @@
 package ru.javabegin.training.goldman.abstracts;
 
 import javax.swing.ImageIcon;
-import ru.javabegin.training.goldman.interfaces.MovingObject;
+import ru.javabegin.training.goldman.interfaces.gameobjects.MovingObject;
 
 /**
  * класс, который отвечает за любой движущийся объект. наследуется от класса
@@ -51,4 +51,6 @@ public abstract class AbstractMovingObject extends AbstractGameObject implements
     public ImageIcon getIconRight() {
         return iconRight;
     }
+    
+    
 }
