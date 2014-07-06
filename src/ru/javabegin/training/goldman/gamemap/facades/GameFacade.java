@@ -6,6 +6,7 @@ import ru.javabegin.training.goldman.enums.LocationType;
 import ru.javabegin.training.goldman.enums.MovingDirection;
 import ru.javabegin.training.goldman.gamemap.abstracts.AbstractGameMap;
 import ru.javabegin.training.goldman.gamemap.adapters.HybridMapLoader;
+import ru.javabegin.training.goldman.gameobjects.abstracts.AbstractGameObject;
 import ru.javabegin.training.goldman.gameobjects.impl.GoldMan;
 import ru.javabegin.training.goldman.listeners.interfaces.MoveResultListener;
 import ru.javabegin.training.goldman.objects.MapInfo;
@@ -29,19 +30,6 @@ public class GameFacade {
         this.soundPlayer = soundPlayer;
     }
 
-
-    private void init() {
-        gameMap = mapLoader.getGameMap();
-        mapInfo = gameMap.getMapInfo();
-
-        // слушатели для звуков должны идти в первую очередь, т.к. они запускаются в отдельном потоке и не мешают выполняться следующим слушателям
-        if (soundPlayer instanceof MoveResultListener) {
-            mapLoader.getGameMap().getGameCollection().addMoveListener((MoveResultListener) soundPlayer);
-        }
-
-
-    }
-
     public GameFacade() {
     }
 
@@ -49,17 +37,21 @@ public class GameFacade {
         this.soundPlayer = soundPlayer;
     }
 
- 
     public void setMapLoader(HybridMapLoader mapLoader) {
         this.mapLoader = mapLoader;
+
+        // слушатели для звуков должны идти в первую очередь, т.к. они запускаются в отдельном потоке и не мешают выполняться следующим слушателям
+        if (soundPlayer instanceof MoveResultListener) {
+            mapLoader.getGameMap().getGameCollection().addMoveListener((MoveResultListener) soundPlayer);
+        }
+
+        updateMap();
     }
 
     public ScoreSaver getScoreSaver() {
         return scoreSaver;
     }
 
-    
-    
     public void setScoreSaver(ScoreSaver scoreSaver) {
         this.scoreSaver = scoreSaver;
     }
@@ -74,8 +66,6 @@ public class GameFacade {
     }
 
     public Component getMap() {
-        init();
-        gameMap.drawMap();
         return mapLoader.getGameMap().getMapComponent();
     }
 
@@ -117,6 +107,14 @@ public class GameFacade {
     }
 
     public void updateMap() {
-        gameMap.drawMap();
+        gameMap = mapLoader.getGameMap();
+        mapInfo = gameMap.getMapInfo();
+
+
+        gameMap.updateMap();
+    }
+    
+      public void updateObjects(AbstractGameObject obj1, AbstractGameObject obj2) {
+        gameMap.updateMapObjects(obj1, obj2);
     }
 }

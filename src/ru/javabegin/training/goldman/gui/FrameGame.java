@@ -1,22 +1,14 @@
 package ru.javabegin.training.goldman.gui;
 
-import java.awt.GridBagLayout;
 import java.awt.event.ActionListener;
-import java.util.List;
-import javax.swing.BorderFactory;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.MovingDirection;
 import ru.javabegin.training.goldman.gamemap.facades.GameFacade;
-import ru.javabegin.training.goldman.gameobjects.abstracts.AbstractMovingObject;
-import ru.javabegin.training.goldman.gameobjects.impl.GoldMan;
+import ru.javabegin.training.goldman.gameobjects.abstracts.AbstractGameObject;
 import ru.javabegin.training.goldman.listeners.interfaces.CloseFrameListener;
 import ru.javabegin.training.goldman.listeners.interfaces.MoveResultListener;
 import ru.javabegin.training.goldman.utils.MessageManager;
@@ -359,14 +351,14 @@ public class FrameGame extends ConfirmCloseFrame implements ActionListener, Move
     }
 
     @Override
-    public void notifyActionResult(ActionResult actionResult, AbstractMovingObject movingObject) {
+    public void notifyActionResult(ActionResult actionResult, AbstractGameObject movingObject, AbstractGameObject targetObject) {
 
         if (movingObject.getType().equals(GameObjectType.GOLDMAN)) {
             checkGoldManActions(actionResult);
         }
 
         checkCommonActions(actionResult);
-        gameFacade.updateMap();
+        gameFacade.updateObjects(movingObject, targetObject);
 
     }
 
@@ -393,6 +385,10 @@ public class FrameGame extends ConfirmCloseFrame implements ActionListener, Move
                 jlabelScore.setText(String.valueOf(gameFacade.getTotalScore()));
                 jlabelTurnsLeft.setText(String.valueOf(gameFacade.getTurnsLeftCount()));
                 break;
+            }
+                
+            case HIDE_IN_TREE:{
+                jlabelTurnsLeft.setText(String.valueOf(gameFacade.getTurnsLeftCount()));
             }
 
         }

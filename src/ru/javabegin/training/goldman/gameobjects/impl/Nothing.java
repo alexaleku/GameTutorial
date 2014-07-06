@@ -14,6 +14,5 @@ public class Nothing extends AbstractGameObject {
         super.setType(GameObjectType.NOTHING);
         super.setCoordinate(coordinate);
         super.setIcon(null);
-
     }
 }

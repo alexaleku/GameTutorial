@@ -12,7 +12,7 @@ public class Treasure extends AbstractGameObject {
     public Treasure(Coordinate coordinate) {
         super.setType(GameObjectType.TREASURE);
         super.setCoordinate(coordinate);
-        super.setIcon(getImageIcon("/ru/javabegin/training/goldman/images/gold.png"));
+        super.saveIcon("/ru/javabegin/training/goldman/images/gold.png");
     }
     
     

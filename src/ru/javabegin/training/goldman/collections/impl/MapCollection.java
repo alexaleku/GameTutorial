@@ -7,6 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import ru.javabegin.training.goldman.collections.abstracts.MapMoveListenersRegistrator;
 import ru.javabegin.training.goldman.enums.ActionResult;
+import static ru.javabegin.training.goldman.enums.ActionResult.COLLECT_TREASURE;
+import static ru.javabegin.training.goldman.enums.ActionResult.DIE;
+import static ru.javabegin.training.goldman.enums.ActionResult.HIDE_IN_TREE;
+import static ru.javabegin.training.goldman.enums.ActionResult.MOVE;
+import static ru.javabegin.training.goldman.enums.ActionResult.WIN;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.MovingDirection;
 import ru.javabegin.training.goldman.gameobjects.abstracts.AbstractGameObject;
@@ -14,7 +19,6 @@ import ru.javabegin.training.goldman.gameobjects.abstracts.AbstractMovingObject;
 import ru.javabegin.training.goldman.gameobjects.impl.Coordinate;
 import ru.javabegin.training.goldman.gameobjects.impl.GoldMan;
 import ru.javabegin.training.goldman.gameobjects.impl.Nothing;
-import ru.javabegin.training.goldman.gameobjects.impl.Wall;
 import ru.javabegin.training.goldman.listeners.interfaces.MoveResultListener;
 import ru.javabegin.training.goldman.movestrategies.interfaces.MoveStrategy;
 
@@ -136,12 +140,16 @@ public class MapCollection extends MapMoveListenersRegistrator implements Serial
                         break;
                     }
                     case COLLECT_TREASURE: {
-                        swapObjects(movingObject, new Nothing(newCoordinate));
+                        Nothing nothing = new Nothing(newCoordinate);
+                        swapObjects(movingObject, nothing);
                         removeObject(objectInNewCoordinate);
+                        objectInNewCoordinate = nothing;
                         break;
                     }
                     case HIDE_IN_TREE: {
-                        swapObjects(movingObject, new Nothing(newCoordinate));
+                        Nothing nothing = new Nothing(newCoordinate);
+                        swapObjects(movingObject, nothing);
+                        objectInNewCoordinate = nothing;
                         break;
                     }
 
@@ -152,7 +160,9 @@ public class MapCollection extends MapMoveListenersRegistrator implements Serial
 
                 }
 
-                notifyMoveListeners(actionResult, movingObject);
+                if (actionResult != ActionResult.NO_ACTION) {
+                    notifyMoveListeners(actionResult, movingObject, objectInNewCoordinate);
+                }
 
             }
 
@@ -179,9 +189,9 @@ public class MapCollection extends MapMoveListenersRegistrator implements Serial
     }
 
     @Override
-    public void notifyMoveListeners(ActionResult actionResult, AbstractMovingObject movingObject) {
+    public void notifyMoveListeners(ActionResult actionResult, AbstractGameObject movingObject, AbstractGameObject targetObject) {
         for (MoveResultListener listener : getMoveListeners()) {
-            listener.notifyActionResult(actionResult, movingObject);
+            listener.notifyActionResult(actionResult, movingObject, targetObject);
         }
     }
 

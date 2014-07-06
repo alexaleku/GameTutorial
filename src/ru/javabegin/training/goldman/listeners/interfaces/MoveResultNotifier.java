@@ -2,7 +2,7 @@ package ru.javabegin.training.goldman.listeners.interfaces;
 
 import java.util.List;
 import ru.javabegin.training.goldman.enums.ActionResult;
-import ru.javabegin.training.goldman.gameobjects.abstracts.AbstractMovingObject;
+import ru.javabegin.training.goldman.gameobjects.abstracts.AbstractGameObject;
 
 public interface MoveResultNotifier {
     
@@ -14,6 +14,6 @@ public interface MoveResultNotifier {
 
     public void removeAllMoveListeners();
 
-    public void notifyMoveListeners(ActionResult actionResult, AbstractMovingObject abstractMovingObject);
+    public void notifyMoveListeners(ActionResult actionResult, AbstractGameObject movingObject, AbstractGameObject targetObject);
 
 }

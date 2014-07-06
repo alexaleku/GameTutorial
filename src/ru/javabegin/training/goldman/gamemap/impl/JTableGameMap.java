@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.Timer;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import ru.javabegin.training.goldman.collections.interfaces.GameCollection;
@@ -14,9 +15,6 @@ import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.gamemap.abstracts.AbstractGameMap;
 import ru.javabegin.training.goldman.gamemap.interfaces.TimeMap;
 import ru.javabegin.training.goldman.gameobjects.abstracts.AbstractGameObject;
-import ru.javabegin.training.goldman.gameobjects.impl.Coordinate;
-import ru.javabegin.training.goldman.gameobjects.impl.Nothing;
-import ru.javabegin.training.goldman.gameobjects.impl.Wall;
 import ru.javabegin.training.goldman.movestrategies.impl.AgressiveMoving;
 
 public class JTableGameMap extends AbstractGameMap implements TimeMap {
@@ -30,50 +28,88 @@ public class JTableGameMap extends AbstractGameMap implements TimeMap {
 
     public JTableGameMap(GameCollection gameCollection) {
         super(gameCollection);
-        
-        
+
+
         try {
-            jTableMap.setEnabled(false);
-            jTableMap.setSize(new java.awt.Dimension(300, 300));
-            jTableMap.setRowHeight(26);
-            jTableMap.setRowSelectionAllowed(false);
-            jTableMap.setShowHorizontalLines(false);
-            jTableMap.setShowVerticalLines(false);
-            jTableMap.setTableHeader(null);
-            jTableMap.setUpdateSelectionOnSort(false);
-            jTableMap.setVerifyInputWhenFocusTarget(false);
+            prepareTable();
+            updateObjectsArray();
         } catch (Exception ex) {
             Logger.getLogger(JTableGameMap.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 
-    }
 
- 
+
+    }
 
     private void updateObjectsArray() {
 
         mapObjects = new AbstractGameObject[mapInfo.getHeight()][mapInfo.getWidth()];
-		
+
         for (AbstractGameObject gameObj : getGameCollection().getAllGameObjects()) {
-       
-                int y = gameObj.getCoordinate().getY();
-                int x = gameObj.getCoordinate().getX();
-                if (mapObjects[y][x] !=null){ // если в этих координатах уже есть какой то объект
-                    mapObjects[y][x] = getGameCollection().getObjectByCoordinate(x, y);
-                }else{
-                    mapObjects[y][x] = gameObj;
-                }
-      
+            int y = gameObj.getCoordinate().getY();
+            int x = gameObj.getCoordinate().getX();
+            if (mapObjects[y][x] != null) { // если в этих координатах уже есть какой то объект
+                mapObjects[y][x] = getGameCollection().getObjectByCoordinate(x, y);
+            } else {
+                mapObjects[y][x] = gameObj;
+            }
         }
     }
 
     @Override
-    public boolean drawMap() {
+    public boolean updateMap() {
 
-        updateObjectsArray();
+        if (mapObjects == null || mapObjects.length == 0) {
+            updateObjectsArray();
+        }
+
+        if (jTableMap.getModel().getRowCount() == 0) {
+            updateModel();
+        }
+
+        return true;
+    }
+
+    @Override
+    public Component getMapComponent() {
+        return jTableMap;
+    }
+
+    @Override
+    public void start() {
+        timeMover.start();
+    }
+
+    @Override
+    public void stop() {
+        timeMover.stop();
+    }
+
+    @Override
+    public void updateMapObjects(AbstractGameObject obj1, AbstractGameObject obj2) {
+
+        if (obj1 != null) {
+            int y1 = obj1.getCoordinate().getY();
+            int x1 = obj1.getCoordinate().getX();
+
+            ((AbstractTableModel) jTableMap.getModel()).setValueAt(getGameCollection().getObjectByCoordinate(x1, y1), y1, x1);
+        }
+
+        if (obj2 != null) {
+            int y2 = obj2.getCoordinate().getY();
+            int x2 = obj2.getCoordinate().getX();
+
+            ((AbstractTableModel) jTableMap.getModel()).setValueAt(getGameCollection().getObjectByCoordinate(x2, y2), y2, x2);
+        }
+
+    }
+
+    private boolean updateModel() {
 
         try {
+
+
             // присваиваем пустоту всем заголовкам столбцов, чтобы у таблицы не было заголовоков, а то некрасиво смотрится
             columnNames = new String[mapInfo.getWidth()];
 
@@ -92,29 +128,25 @@ public class JTableGameMap extends AbstractGameMap implements TimeMap {
                 TableColumn a = jTableMap.getColumnModel().getColumn(i);
                 a.setPreferredWidth(26);
             }
+
+
         } catch (Exception ex) {
             Logger.getLogger(JTableGameMap.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
-
-
-
         return true;
     }
 
-    @Override
-    public Component getMapComponent() {
-        return jTableMap;
-    }
-
-    @Override
-    public void start() {
-        timeMover.start();
-    }
-
-    @Override
-    public void stop() {
-        timeMover.stop();
+    private void prepareTable() {
+        jTableMap.setEnabled(false);
+        jTableMap.setSize(new java.awt.Dimension(300, 300));
+        jTableMap.setRowHeight(26);
+        jTableMap.setRowSelectionAllowed(false);
+        jTableMap.setShowHorizontalLines(false);
+        jTableMap.setShowVerticalLines(false);
+        jTableMap.setTableHeader(null);
+        jTableMap.setUpdateSelectionOnSort(false);
+        jTableMap.setVerifyInputWhenFocusTarget(false);
     }
 
     private class TimeMover implements ActionListener {

@@ -9,7 +9,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import ru.javabegin.training.goldman.enums.ActionResult;
-import ru.javabegin.training.goldman.gameobjects.abstracts.AbstractMovingObject;
+import ru.javabegin.training.goldman.gameobjects.abstracts.AbstractGameObject;
 import ru.javabegin.training.goldman.listeners.interfaces.MoveResultListener;
 import ru.javabegin.training.goldman.sound.interfaces.SoundObject;
 import ru.javabegin.training.goldman.sound.interfaces.SoundPlayer;
@@ -58,7 +58,7 @@ public class WavPlayer implements MoveResultListener, SoundPlayer {
     }
 
     @Override
-    public void notifyActionResult(ActionResult actionResult, final AbstractMovingObject abstractMovingObject) {
+    public void notifyActionResult(ActionResult actionResult, final AbstractGameObject abstractMovingObject, final AbstractGameObject targetObject) {
 
         if (!(abstractMovingObject instanceof SoundObject)) {
             return;

@@ -9,6 +9,7 @@ public class Tree extends AbstractGameObject{
     public Tree(Coordinate coordinate) {
         super.setType(GameObjectType.TREE);
         super.setCoordinate(coordinate);
-        super.setIcon(getImageIcon("/ru/javabegin/training/goldman/images/tree.jpg"));
+        super.saveIcon("/ru/javabegin/training/goldman/images/tree.jpg");
     }
 }
+
