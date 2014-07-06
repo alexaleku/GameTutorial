@@ -6,8 +6,6 @@ package ru.javabegin.training.goldman.gui;
 
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
-import ru.javabegin.training.goldman.abstracts.AbstractGameObject;
-import ru.javabegin.training.goldman.abstracts.AbstractMovingObject;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.MovingDirection;
 import ru.javabegin.training.goldman.interfaces.gamemap.DrawableMap;
@@ -265,19 +263,19 @@ public class FrameGame extends BaseChildFrame implements ActionListener, KeyList
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbtnUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnUpActionPerformed
-        moveGoldMan(MovingDirection.UP, GameObjectType.GOLDMAN);
+        moveObject(MovingDirection.UP, GameObjectType.GOLDMAN);
     }//GEN-LAST:event_jbtnUpActionPerformed
 
     private void jbtnLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnLeftActionPerformed
-        moveGoldMan(MovingDirection.LEFT, GameObjectType.GOLDMAN);
+        moveObject(MovingDirection.LEFT, GameObjectType.GOLDMAN);
     }//GEN-LAST:event_jbtnLeftActionPerformed
 
     private void jbtnDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnDownActionPerformed
-        moveGoldMan(MovingDirection.DOWN, GameObjectType.GOLDMAN);
+        moveObject(MovingDirection.DOWN, GameObjectType.GOLDMAN);
     }//GEN-LAST:event_jbtnDownActionPerformed
 
     private void jbtnRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRightActionPerformed
-        moveGoldMan(MovingDirection.RIGHT, GameObjectType.GOLDMAN);
+        moveObject(MovingDirection.RIGHT, GameObjectType.GOLDMAN);
     }//GEN-LAST:event_jbtnRightActionPerformed
 
     private void jbtnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnSaveActionPerformed
@@ -289,7 +287,7 @@ public class FrameGame extends BaseChildFrame implements ActionListener, KeyList
     }//GEN-LAST:event_jbtnExitActionPerformed
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        System.out.println(evt.getKeyCode());
+        
     }//GEN-LAST:event_formKeyPressed
 
   
@@ -315,12 +313,8 @@ public class FrameGame extends BaseChildFrame implements ActionListener, KeyList
     private javax.swing.JMenu jmenuFile;
     // End of variables declaration//GEN-END:variables
 
-    private void moveGoldMan(MovingDirection movingDirection, GameObjectType gameObjectType) {
-        AbstractGameObject gameObject = gameMap.getGameMap().getGameObjects(gameObjectType).get(0);
-        
-        if (gameObject instanceof AbstractMovingObject){// дорогостоящая операция
-            ((AbstractMovingObject)gameObject).move(movingDirection);
-            gameMap.drawMap();
-        }
+    private void moveObject(MovingDirection movingDirection, GameObjectType gameObjectType) {
+        gameMap.getGameMap().move(movingDirection, gameObjectType);
+        gameMap.drawMap();
     }
 }

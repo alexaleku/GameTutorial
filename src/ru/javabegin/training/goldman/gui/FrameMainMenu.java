@@ -5,9 +5,8 @@
 package ru.javabegin.training.goldman.gui;
 
 import ru.javabegin.training.goldman.enums.LocationType;
-import ru.javabegin.training.goldman.interfaces.gamemap.DrawableMap;
+import ru.javabegin.training.goldman.interfaces.gamemap.MapCollection;
 import ru.javabegin.training.goldman.objects.gui.maps.JTableGameMap;
-import ru.javabegin.training.goldman.objects.maps.FSGameMap;
 
 
 /**
@@ -20,7 +19,7 @@ public class FrameMainMenu extends javax.swing.JFrame {
     private FrameStat frameStat = new FrameStat();
     private FrameSavedGames frameLoadGame = new FrameSavedGames();
     
-    private JTableGameMap gameMap = new JTableGameMap(LocationType.FS, "game.map");
+    private JTableGameMap gameMap = new JTableGameMap(LocationType.FS, "game.map", new MapCollection());
     
 
     /**

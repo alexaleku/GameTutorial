@@ -4,9 +4,8 @@
  */
 package ru.javabegin.training.goldman.interfaces.gameobjects;
 
-import javax.swing.ImageIcon;
+import ru.javabegin.training.goldman.abstracts.AbstractGameMap;
 import ru.javabegin.training.goldman.enums.MovingDirection;
-import ru.javabegin.training.goldman.abstracts.AbstractGameObject;
 
 /**
  *
@@ -14,19 +13,6 @@ import ru.javabegin.training.goldman.abstracts.AbstractGameObject;
  */
 public interface MovingObject extends StaticObject{
     
-    void move(MovingDirection direction);
-    
-    void getMoveResult(AbstractGameObject objectInNewCoordinate);
-    
-    // иконки при движении в разные стороны
-    ImageIcon getIconLeft();
-
-    ImageIcon getIconUp();
-
-    ImageIcon getIconDown();
-
-    ImageIcon getIconRight();
-
-   
+    void move(MovingDirection direction, AbstractGameMap abstractGameMap);
    
 }

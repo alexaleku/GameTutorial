@@ -1,6 +1,5 @@
 package ru.javabegin.training.goldman.abstracts;
 
-import javax.swing.ImageIcon;
 import ru.javabegin.training.goldman.enums.MovingDirection;
 import ru.javabegin.training.goldman.interfaces.gameobjects.MovingObject;
 import ru.javabegin.training.goldman.objects.Coordinate;
@@ -11,49 +10,33 @@ import ru.javabegin.training.goldman.objects.Coordinate;
  */
 public abstract class AbstractMovingObject extends AbstractGameObject implements MovingObject {
 
-    private ImageIcon iconLeft;
-    private ImageIcon iconUp;
-    private ImageIcon iconDown;
-    private ImageIcon iconRight;
-
-    public void setIconLeft(ImageIcon iconLeft) {
-        this.iconLeft = iconLeft;
-    }
-
-    public void setIconUp(ImageIcon iconUp) {
-        this.iconUp = iconUp;
-    }
-
-    public void setIconDown(ImageIcon iconDown) {
-        this.iconDown = iconDown;
-    }
-
-    public void setIconRight(ImageIcon iconRight) {
-        this.iconRight = iconRight;
-    }
+    public abstract void changeIcon(MovingDirection direction);
 
     @Override
-    public ImageIcon getIconLeft() {
-        return iconLeft;
+    public void move(MovingDirection direction, AbstractGameMap gameMap) {
+
+        Coordinate newCoordinate = getNewCoordinate(direction);
+        
+
+        AbstractGameObject objectInNewCoordinate = gameMap.getGameCollection().getObjectByCoordinate(newCoordinate);
+
+        switch (objectInNewCoordinate.getType()) {
+
+            case NOTHING: {
+                changeIcon(direction);
+                setCoordinate(newCoordinate);
+            }
+
+            default: {
+            }
+
+        }
+
     }
 
-    @Override
-    public ImageIcon getIconUp() {
-        return iconUp;
-    }
 
-    @Override
-    public ImageIcon getIconDown() {
-        return iconDown;
-    }
+    public Coordinate getNewCoordinate(MovingDirection direction) {
 
-    @Override
-    public ImageIcon getIconRight() {
-        return iconRight;
-    }
-
-    @Override
-    public void move(MovingDirection direction) {
         // берем текущие координаты объекта, которые нужно передвинуть (индексы начинаются с нуля)
         int x = this.getCoordinate().getX();
         int y = this.getCoordinate().getY();
@@ -64,30 +47,23 @@ public abstract class AbstractMovingObject extends AbstractGameObject implements
 
         switch (direction) {// определяем, в каком направлении нужно двигаться по массиву
             case UP: {
-                super.setIcon(getIconUp());
-                newCoordinate.setXY(x, y - 1);
+                newCoordinate.setY(y - 1);
                 break;
             }
             case DOWN: {
-                super.setIcon(getIconDown());
-                newCoordinate.setXY(x, y + 1);
+                newCoordinate.setY(y + 1);
                 break;
             }
             case LEFT: {
-                super.setIcon(getIconLeft());
-                newCoordinate.setXY(x - 1, y);
+                newCoordinate.setX(x - 1);
                 break;
             }
             case RIGHT: {
-                super.setIcon(getIconRight());
-                newCoordinate.setXY(x + 1, y);
+                newCoordinate.setX(x + 1);
                 break;
             }
         }
 
-        setCoordinate(newCoordinate);
-
-
-
+        return newCoordinate;
     }
 }

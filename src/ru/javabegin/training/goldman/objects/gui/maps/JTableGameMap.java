@@ -8,6 +8,7 @@ import ru.javabegin.training.goldman.abstracts.AbstractGameMap;
 import ru.javabegin.training.goldman.abstracts.AbstractGameObject;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.LocationType;
+import ru.javabegin.training.goldman.interfaces.collections.GameCollection;
 import ru.javabegin.training.goldman.interfaces.gamemap.DrawableMap;
 import ru.javabegin.training.goldman.objects.Coordinate;
 import ru.javabegin.training.goldman.objects.Nothing;
@@ -25,7 +26,7 @@ public class JTableGameMap implements DrawableMap {
     // каждый элемент массива будет обозначаться согласно текстовому представлению объекта как описано в GameObjectType
     private AbstractGameObject[][] mapObjects;
 
-    public JTableGameMap(LocationType type, Object source) {
+    public JTableGameMap(LocationType type, Object source, GameCollection gameCollection) {
         jTableMap.setEnabled(false);
         jTableMap.setSize(new java.awt.Dimension(300, 300));
         jTableMap.setRowHeight(26);
@@ -36,10 +37,9 @@ public class JTableGameMap implements DrawableMap {
         jTableMap.setUpdateSelectionOnSort(false);
         jTableMap.setVerifyInputWhenFocusTarget(false);
 
-        gameMap = MapCreator.getInstance().createMap(type);
+        gameMap = MapCreator.getInstance().createMap(type, gameCollection);
         gameMap.loadMap(source);
-
-        
+     
         
     }
 
@@ -61,7 +61,7 @@ public class JTableGameMap implements DrawableMap {
         fillEmptyMap(gameMap.getWidth(), gameMap.getHeight());
 
         // потом заполнить массив объектами		
-        for (AbstractGameObject gameObj : gameMap.getAllGameObjects()) {
+        for (AbstractGameObject gameObj : gameMap.getGameCollection().getAllGameObjects()) {
             if (!gameObj.getType().equals(GameObjectType.NOTHING)) {// пустоты не добавляем, т.к. они уже добавились когда мы вызвали метод fillEmptyMap()
                 int y = gameObj.getCoordinate().getY();
                 int x = gameObj.getCoordinate().getX();
