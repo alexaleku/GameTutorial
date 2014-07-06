@@ -2,6 +2,7 @@ package ru.javabegin.training.goldman.interfaces.collections;
 
 import java.util.List;
 import ru.javabegin.training.goldman.abstracts.AbstractGameObject;
+import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.MovingDirection;
 import ru.javabegin.training.goldman.objects.Coordinate;
@@ -18,6 +19,6 @@ public interface GameCollection{
     
     List<AbstractGameObject> getGameObjects(GameObjectType type);
     
-    void moveObject(MovingDirection direction, GameObjectType gameObjectType);
+    ActionResult moveObject(MovingDirection direction, GameObjectType gameObjectType);
 
 }

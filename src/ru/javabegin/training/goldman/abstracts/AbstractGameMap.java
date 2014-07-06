@@ -3,6 +3,7 @@ package ru.javabegin.training.goldman.abstracts;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.MovingDirection;
 import ru.javabegin.training.goldman.interfaces.collections.GameCollection;
@@ -104,8 +105,8 @@ public abstract class AbstractGameMap implements GameMap, Serializable { // Seri
         this.gameCollection = gameCollection;
     }
 
-    public void move(MovingDirection direction, GameObjectType gameObjectType) {
-        getGameCollection().moveObject(direction, gameObjectType);
+    public ActionResult move(MovingDirection direction, GameObjectType gameObjectType) {
+        return getGameCollection().moveObject(direction, gameObjectType);
    
     }
 }

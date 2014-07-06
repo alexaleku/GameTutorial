@@ -11,9 +11,7 @@ import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.MovingDirection;
 import ru.javabegin.training.goldman.interfaces.collections.GameCollection;
 import ru.javabegin.training.goldman.objects.Coordinate;
-import ru.javabegin.training.goldman.objects.GoldMan;
-import ru.javabegin.training.goldman.objects.Treasure;
-import ru.javabegin.training.goldman.objects.creators.GameObjectCreator;
+import ru.javabegin.training.goldman.objects.Nothing;
 
 public class MapCollection implements GameCollection {// объекты для карты, которые умеют уведомлять всех слушателей о своих ходах
 
@@ -57,7 +55,10 @@ public class MapCollection implements GameCollection {// объекты для �
     }
 
     @Override
-    public void moveObject(MovingDirection direction, GameObjectType gameObjectType) {
+    public ActionResult moveObject(MovingDirection direction, GameObjectType gameObjectType) {
+        
+        ActionResult actionResult = null;
+        
         for (AbstractGameObject gameObject : this.getGameObjects(gameObjectType)) {
             if (gameObject instanceof AbstractMovingObject) {// дорогостоящая операция - instanceof
                 AbstractMovingObject movingObject = (AbstractMovingObject) gameObject;
@@ -66,36 +67,25 @@ public class MapCollection implements GameCollection {// объекты для �
 
                 AbstractGameObject objectInNewCoordinate = getObjectByCoordinate(newCoordinate);
 
-                ActionResult actionResult = movingObject.moveToObject(direction, objectInNewCoordinate);
+                actionResult = movingObject.moveToObject(direction, objectInNewCoordinate);
 
                 switch (actionResult) {
                     case MOVE: {
                         swapObjects(movingObject, objectInNewCoordinate);
                         break;
-                    }   
-//                     case WIN: {
-//                        showWin(movingObject, objectInNewCoordinate);
-//                        break;
-//                    }   
-//                      case DIE: {
-//                        showDie(movingObject, objectInNewCoordinate);
-//                        break;
-//                    }   
-                       case COLLECT_TREASURE: {
-                        swapObjects(movingObject, GameObjectCreator.getInstance().createObject(GameObjectType.NOTHING, newCoordinate));
-                    Treasure tresure = (Treasure) objectInNewCoordinate;
-                    int score = tresure.getScore();
-                    GoldMan gameObjectGM = (GoldMan) gameObject;
-                    gameObjectGM.addSTotalcore(score);
-                    System.out.println(gameObjectGM.getTotalScore());
-                    gameObjectGM.setTurnsNumber(score);
+                    }
+                    case COLLECT_TREASURE: {
+                        swapObjects(movingObject, new Nothing(newCoordinate));
                         break;
-                    }   
+                    }
+   
                 }
-
-
             }
+
+
         }
+
+        return actionResult;
     }
 
     private void swapObjects(AbstractGameObject obj1, AbstractGameObject obj2) {

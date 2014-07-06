@@ -6,9 +6,13 @@ package ru.javabegin.training.goldman.gui;
 
 import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
+import javax.swing.JFrame;
+import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.MovingDirection;
 import ru.javabegin.training.goldman.interfaces.gamemap.DrawableMap;
+import ru.javabegin.training.goldman.objects.GoldMan;
+import ru.javabegin.training.goldman.utils.MessageManager;
 
 /**
  *
@@ -29,6 +33,7 @@ public class FrameGame extends BaseChildFrame implements ActionListener, KeyList
         this.gameMap = gameMap;
         gameMap.drawMap();
 
+        jlabelTurnsLeft.setText(String.valueOf(gameMap.getGameMap().getTimeLimit()));
         jPanelMap.removeAll();
         jPanelMap.add(gameMap.getMapComponent());
     }
@@ -287,10 +292,7 @@ public class FrameGame extends BaseChildFrame implements ActionListener, KeyList
     }//GEN-LAST:event_jbtnExitActionPerformed
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        
     }//GEN-LAST:event_formKeyPressed
-
-  
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -314,7 +316,32 @@ public class FrameGame extends BaseChildFrame implements ActionListener, KeyList
     // End of variables declaration//GEN-END:variables
 
     private void moveObject(MovingDirection movingDirection, GameObjectType gameObjectType) {
-        gameMap.getGameMap().move(movingDirection, gameObjectType);
+        ActionResult result = gameMap.getGameMap().move(movingDirection, gameObjectType);
+
+        if (result == ActionResult.DIE) {
+            gameOver();
+            return;
+        }
+
         gameMap.drawMap();
+
+        if (gameObjectType == GameObjectType.GOLDMAN) {
+            GoldMan goldMan = (GoldMan) gameMap.getGameMap().getGameCollection().getGameObjects(gameObjectType).get(0);
+
+            if (goldMan.getTurnsNumber() >= gameMap.getGameMap().getTimeLimit()) {
+                gameOver();
+                return;
+            }
+
+            jlabelScore.setText(String.valueOf(goldMan.getTotalScore()));
+            jlabelTurnsLeft.setText(String.valueOf(gameMap.getGameMap().getTimeLimit() - goldMan.getTurnsNumber()));
+
+        }
+
+    }
+
+    private void gameOver() {
+        MessageManager.showInformMessage(null, "Вы проиграли!");
+        closeFrame();
     }
 }

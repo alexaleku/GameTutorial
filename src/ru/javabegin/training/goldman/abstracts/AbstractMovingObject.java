@@ -43,11 +43,12 @@ public abstract class AbstractMovingObject extends AbstractGameObject implements
             return ActionResult.NO_ACTION;
         }
 
-        switch (gameObject.getType()) { 
-            case NOTHING: { return ActionResult.MOVE; } 
-            case TREASURE: { return ActionResult.COLLECT_TREASURE; } 
-            case EXIT: { return ActionResult.WIN; }
-            case MONSTER: { return ActionResult.DIE; }}
+        switch (gameObject.getType()) {
+
+            case NOTHING: {
+                return ActionResult.MOVE;
+            }
+        }
 
         return ActionResult.NO_ACTION;
     }

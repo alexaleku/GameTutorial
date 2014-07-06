@@ -19,8 +19,6 @@ public class FrameMainMenu extends javax.swing.JFrame {
     private FrameStat frameStat = new FrameStat();
     private FrameSavedGames frameLoadGame = new FrameSavedGames();
     
-    private JTableGameMap gameMap = new JTableGameMap(LocationType.FS, "game.map", new MapCollection());
-    
 
     /**
      * Creates new form FrameMainMenu
@@ -157,7 +155,7 @@ public class FrameMainMenu extends javax.swing.JFrame {
         if (frameGame==null){
             frameGame = new FrameGame();
         }
-        frameGame.setMap(gameMap);
+        frameGame.setMap(new JTableGameMap(LocationType.FS, "game.map", new MapCollection()));
         frameGame.showFrame(this);
     }//GEN-LAST:event_jbtnNewGameActionPerformed
 
