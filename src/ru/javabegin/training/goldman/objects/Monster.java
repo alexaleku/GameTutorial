@@ -40,7 +40,6 @@ public class Monster extends AbstractMovingObject {
     @Override
     public ActionResult doAction(AbstractGameObject gameObject) {
 
-
         switch (gameObject.getType()) {
 
 

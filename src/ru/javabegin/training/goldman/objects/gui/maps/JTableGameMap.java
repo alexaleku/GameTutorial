@@ -9,14 +9,18 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import ru.javabegin.training.goldman.abstracts.AbstractGameMap;
 import ru.javabegin.training.goldman.abstracts.AbstractGameObject;
+import ru.javabegin.training.goldman.enums.ActionResult;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.LocationType;
 import ru.javabegin.training.goldman.interfaces.gamemap.collections.GameCollection;
 import ru.javabegin.training.goldman.interfaces.gamemap.DrawableMap;
+import ru.javabegin.training.goldman.movestrategies.AgressiveMoving;
 import ru.javabegin.training.goldman.objects.Coordinate;
+import ru.javabegin.training.goldman.objects.GoldMan;
 import ru.javabegin.training.goldman.objects.Nothing;
 import ru.javabegin.training.goldman.objects.Wall;
 import ru.javabegin.training.goldman.objects.creators.MapCreator;
+import ru.javabegin.training.goldman.objects.listeners.MoveResultListener;
 
 public class JTableGameMap implements DrawableMap {
 
@@ -41,7 +45,7 @@ public class JTableGameMap implements DrawableMap {
         gameMap = MapCreator.getInstance().createMap(type, gameCollection);
         gameMap.loadMap(source);
    
-
+        timeMover = new TimeMover();
     }
 
 
@@ -120,17 +124,19 @@ public class JTableGameMap implements DrawableMap {
  
 
 
-    private TimeMover timeMover = new TimeMover();
+    private TimeMover timeMover;
 
-    private class TimeMover implements ActionListener {
+    private class TimeMover implements ActionListener, MoveResultListener {
 
         private Timer timer;
         private final static int MOVING_PAUSE = 500;
+        private final static int INIT_PAUSE = 1000;
 
         private TimeMover() {
             timer = new Timer(MOVING_PAUSE, this);
-            timer.setInitialDelay(0);
+            timer.setInitialDelay(INIT_PAUSE);
             timer.start();
+            gameMap.getGameCollection().addMoveListener(this);
         }
 
         public void start() {
@@ -143,7 +149,17 @@ public class JTableGameMap implements DrawableMap {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            gameMap.getGameCollection().moveObjectRandom(GameObjectType.MONSTER);
+            gameMap.getGameCollection().moveObject(new AgressiveMoving(), GameObjectType.MONSTER);
+        }
+
+        @Override
+        public void notifyActionResult(ActionResult actionResult, GoldMan goldMan) {
+            switch (actionResult){
+                case DIE: case WIN:{
+                    timer.stop();
+                    break;
+                }
+            }
         }
     }
  

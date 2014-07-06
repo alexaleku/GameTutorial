@@ -4,6 +4,7 @@ import java.util.List;
 import ru.javabegin.training.goldman.abstracts.AbstractGameObject;
 import ru.javabegin.training.goldman.enums.GameObjectType;
 import ru.javabegin.training.goldman.enums.MovingDirection;
+import ru.javabegin.training.goldman.movestrategies.MoveStrategy;
 import ru.javabegin.training.goldman.objects.Coordinate;
 import ru.javabegin.training.goldman.objects.listeners.MoveResultNotifier;
 
@@ -21,6 +22,6 @@ public interface GameCollection extends MoveResultNotifier{
     
     void moveObject(MovingDirection direction, GameObjectType gameObjectType);
     
-    void moveObjectRandom(GameObjectType objectType);
+    void moveObject(MoveStrategy moveStrategy, GameObjectType gameObjectType);
 
 }

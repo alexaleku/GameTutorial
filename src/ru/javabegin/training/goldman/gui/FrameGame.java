@@ -314,11 +314,15 @@ public class FrameGame extends BaseChildFrame implements ActionListener, KeyList
         map.getGameMap().getGameCollection().moveObject(movingDirection, gameObjectType);
     }
 
-    private void gameOver() {
-        MessageManager.showInformMessage(null, "Вы проиграли!");
+    private void gameFinished(String message) {
+        MessageManager.showInformMessage(null, message);
         closeFrame();
     }
 
+    
+    private static final String DIE_MESSAGE="Вы прогиграли!";
+    private static final String WIN_MESSAGE="Вы выиграли! Количество очков:";
+    
     @Override
     public void notifyActionResult(ActionResult actionResult, GoldMan goldMan) {
 
@@ -327,15 +331,19 @@ public class FrameGame extends BaseChildFrame implements ActionListener, KeyList
                 jlabelTurnsLeft.setText(String.valueOf(map.getGameMap().getTimeLimit() - goldMan.getTurnsNumber()));
 
                 if (goldMan.getTurnsNumber() >= map.getGameMap().getTimeLimit()) {
-                    gameOver();
+                    gameFinished(DIE_MESSAGE);
                 }
 
                 break;
             }
 
             case DIE: {
-                gameOver();
+                gameFinished(DIE_MESSAGE);
                 break;
+            }
+                
+            case WIN:{
+                gameFinished(WIN_MESSAGE+goldMan.getTotalScore());
             }
 
 

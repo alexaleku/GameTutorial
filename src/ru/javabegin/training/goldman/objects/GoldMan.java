@@ -58,7 +58,7 @@ public class GoldMan extends AbstractMovingObject {
     public ActionResult doAction(AbstractGameObject gameObject) {
 
         turnsNumber++;
-
+        System.out.println(gameObject);
         switch (gameObject.getType()) {
 
             case TREASURE: {
@@ -68,6 +68,11 @@ public class GoldMan extends AbstractMovingObject {
 
             case MONSTER:  {
                 return ActionResult.DIE;
+            }
+                
+            case EXIT:{
+                totalScore *= 2;
+                return ActionResult.WIN;
             }
                 
         }
